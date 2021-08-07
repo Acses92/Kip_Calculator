@@ -1,0 +1,2 @@
+rootProject.name = "KIP Calculator"
+include ':app'
