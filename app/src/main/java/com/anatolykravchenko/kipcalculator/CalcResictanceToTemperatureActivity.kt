@@ -1,6 +1,5 @@
 package com.anatolykravchenko.kipcalculator
 
-import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,12 +7,8 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
 import java.lang.Math.pow
-import kotlin.NullPointerException
-import kotlin.math.roundToLong
-import kotlin.math.sqrt
 
 
 class CalcResictanceToTemperatureActivity: AppCompatActivity() {
@@ -28,15 +23,16 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
         val view = binding.root
 
         var resistance: Double = 0.0
+        var materialSelected: Int = 0
 
         setContentView(view)
 
         val materialRTDSpinner = binding.RDTMaterialSpinner
-        val material = resources.getStringArray(R.array.rtd_material)
+    //    val material = resources.getStringArray(R.array.rtd_material)
    //     val materialTxtSelect = binding.outTestTexRTD
 
 
-        val adapter = ArrayAdapter.createFromResource(
+        val adapterRTD = ArrayAdapter.createFromResource(
             this,
             R.array.rtd_material,
             android.R.layout.simple_spinner_item
@@ -52,8 +48,9 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                binding.outTestTextView.text = adapter.getItem(position)
-                val position = adapter.getItemId(position)
+              //  binding.outTestTextView.text = adapter.getItem(position)
+                val position = adapterRTD.getItemId(position)
+                binding.outTestTextView.text = position.toString()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
