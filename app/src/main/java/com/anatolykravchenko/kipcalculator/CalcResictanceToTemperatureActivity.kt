@@ -21,15 +21,14 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
         binding = RtdActivityBinding.inflate(layoutInflater)
 
         val view = binding.root
-
-        var resistance: Double = 0.0
-        var materialSelected: Int = 0
-
         setContentView(view)
 
+
+        var nominalResistance: Double = 1000.0
+        var materialSelected: Long = 0
+        var resistance: Double = 0.0
         val materialRTDSpinner = binding.RDTMaterialSpinner
-    //    val material = resources.getStringArray(R.array.rtd_material)
-   //     val materialTxtSelect = binding.outTestTexRTD
+        val nominalResSpinner = binding.rtdResistanceSpinner
 
 
         val adapterRTD = ArrayAdapter.createFromResource(
@@ -49,24 +48,42 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
                 id: Long
             ) {
               //  binding.outTestTextView.text = adapter.getItem(position)
-                val position = adapterRTD.getItemId(position)
-                binding.outTestTextView.text = position.toString()
+                materialSelected = adapterRTD.getItemId(position)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        val adapterNominalRes = ArrayAdapter.createFromResource(this,
+            R.array.rtd_resistance,
+        android.R.layout.simple_dropdown_item_1line
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+            nominalResSpinner.adapter = adapter
+        }
+
+        nominalResSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+             //   nominalResistance = adapterRTD.getItem(position).toString().toDouble()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
 
+            }
         }
 
         binding.resistanceEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
             }
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if(s.contentEquals(""))
                 {
@@ -81,7 +98,7 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
         })
 
         binding.resistanceToTempButton.setOnClickListener {
-            val temp = ptChoseListener(nominalResistance = 100.00, resistance)
+            val temp = ptChoseListener(nominalResistance, resistance)
             binding.outTestTextView.text = temp.toString()
         }
     }
