@@ -9,13 +9,20 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
 import java.lang.Math.pow
+import android.content.pm.ActivityInfo
 
 
 class CalcResictanceToTemperatureActivity: AppCompatActivity() {
     private lateinit var binding: RtdActivityBinding
 
+
+    var nominalResistance: Double = 50.0
+    var materialSelected: Long = 0
+    var resistance: Double = 0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
+     //   requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         super.onCreate(savedInstanceState)
         setContentView(R.layout.rtd_activity)
         binding = RtdActivityBinding.inflate(layoutInflater)
@@ -24,13 +31,10 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
         setContentView(view)
 
 
-        var nominalResistance: Double = 1000.0
-        var materialSelected: Long = 0
-        var resistance: Double = 0.0
         val materialRTDSpinner = binding.RDTMaterialSpinner
         val nominalResSpinner = binding.rtdResistanceSpinner
 
-
+        //Инициализирум массив материалов датчиков
         val adapterRTD = ArrayAdapter.createFromResource(
             this,
             R.array.rtd_material,
@@ -40,6 +44,7 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
             materialRTDSpinner.adapter = adapter
         }
 
+        //Обработка выбор материала датчика
         materialRTDSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -50,10 +55,10 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
               //  binding.outTestTextView.text = adapter.getItem(position)
                 materialSelected = adapterRTD.getItemId(position)
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
+        //Инициализирум массив номинальных сопротивлений
         val adapterNominalRes = ArrayAdapter.createFromResource(this,
             R.array.rtd_resistance,
         android.R.layout.simple_dropdown_item_1line
@@ -62,6 +67,7 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
             nominalResSpinner.adapter = adapter
         }
 
+        //Обрабатываем выбор номинального сопротивления
         nominalResSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -69,21 +75,16 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-             //   nominalResistance = adapterRTD.getItem(position).toString().toDouble()
+                nominalResistance = adapterNominalRes.getItem(position).toString().toDouble()
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
+        //обрабатывае ввод сопротивления
         binding.resistanceEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if(s.contentEquals(""))
                 {
@@ -96,21 +97,22 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
                 }
             }
         })
-
+        //обрабатываем кнопку
         binding.resistanceToTempButton.setOnClickListener {
-            val temp = ptChoseListener(nominalResistance, resistance)
+            val temp = resistaceSelectorListener(nominalResistance, resistance)
             binding.outTestTextView.text = temp.toString()
         }
     }
 
-    fun ptChoseListener(nominalResistance: Double, resistance: Double) : Double {
+    //функция выбора датичка
+    fun resistaceSelectorListener(nominalResistance: Double, resistance: Double) : Double {
         if (resistance / nominalResistance < 1.0) {
             return converterPTtoTemperatureMinus(nominalResistance, resistance)
         } else {
             return converterPTtoTemperaturePlus(nominalResistance, resistance)
         }
     }
-
+    //
     fun converterPTtoTemperatureMinus(nominalResistance: Double, resistance: Double): Double {
         val d1 = 255.819
         val d2 = 9.14550
@@ -130,13 +132,7 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
                 - aCoefficient) /(2 * bCoefficient))
     }
 
-    fun cubicRoot(number: Double) : Double {
-        return (pow(number, 1/3.toDouble()))
-    }
 
-    fun fourthRoot(number: Double) : Double {
-        return (pow(number, 1/4.toDouble()))
-    }
 }
 
 
