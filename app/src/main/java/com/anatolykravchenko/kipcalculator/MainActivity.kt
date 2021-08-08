@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.rtdChoiceButton.setOnClickListener {
-            val intent = Intent(this, CalcResictanceToTemperatureActivity::class.java)
+            val intent = Intent(this, CalcResistanceToTemperatureActivity::class.java)
             startActivity(intent)
 
         }

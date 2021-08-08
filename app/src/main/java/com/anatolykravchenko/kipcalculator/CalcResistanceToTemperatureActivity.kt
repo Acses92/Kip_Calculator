@@ -12,7 +12,7 @@ import java.lang.Math.pow
 import android.content.pm.ActivityInfo
 
 
-class CalcResictanceToTemperatureActivity: AppCompatActivity() {
+class CalcResistanceToTemperatureActivity: AppCompatActivity() {
     private lateinit var binding: RtdActivityBinding
 
 
@@ -99,38 +99,12 @@ class CalcResictanceToTemperatureActivity: AppCompatActivity() {
         })
         //обрабатываем кнопку
         binding.resistanceToTempButton.setOnClickListener {
-            val temp = resistaceSelectorListener(nominalResistance, resistance)
+            val temp = ResistanceToTemperature.PlatinaSensor(nominalResistance, resistance)
+                .getOperationType(nominalResistance, resistance)
             binding.outTestTextView.text = temp.toString()
         }
     }
 
-    //функция выбора датичка
-    fun resistaceSelectorListener(nominalResistance: Double, resistance: Double) : Double {
-        if (resistance / nominalResistance < 1.0) {
-            return converterPTtoTemperatureMinus(nominalResistance, resistance)
-        } else {
-            return converterPTtoTemperaturePlus(nominalResistance, resistance)
-        }
-    }
-    //
-    fun converterPTtoTemperatureMinus(nominalResistance: Double, resistance: Double): Double {
-        val d1 = 255.819
-        val d2 = 9.14550
-        val d3 = -2.92363
-        val d4 = 1.79090
-
-        val inputNam: Double = resistance/nominalResistance - 1.00
-
-        return d1*inputNam+d2*pow(inputNam, 2.0)+ d3*pow(inputNam, 3.0)+d4*pow(inputNam, 4.0)
-    }
-
-    fun converterPTtoTemperaturePlus(nominalResistance: Double, resistance: Double): Double {
-        val aCoefficient: Double = 3.9083e-3
-        val bCoefficient: Double = -5.775e-7
-
-        return (((kotlin.math.sqrt(pow(aCoefficient,2.0) - 4 * bCoefficient * (1 - resistance / nominalResistance)))
-                - aCoefficient) /(2 * bCoefficient))
-    }
 
 
 }

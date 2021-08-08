@@ -12,7 +12,7 @@
         android:theme="@style/Theme.KIPCalculator"
         >
 
-        <activity android:name=".CalcResictanceToTemperatureActivity"
+        <activity android:name=".CalcResistanceToTemperatureActivity"
             android:screenOrientation="nosensor" />
         <activity android:name=".MainActivity"
             android:screenOrientation="nosensor" >
