@@ -29,7 +29,7 @@ class ResistanceToTemperature {
             }
         }
 
-        override fun getTemperatureFromResistancePlus(nominalResistance: Double,
+        override fun getTemperatureFromResistanceMinus(nominalResistance: Double,
                                                       resistance: Double): Double {
             super.getTemperatureFromResistancePlus(nominalResistance, resistance)
             val d1 = 255.819
@@ -43,7 +43,7 @@ class ResistanceToTemperature {
                      d4* Math.pow(inputNam, 4.0)
         }
 
-        override fun getTemperatureFromResistanceMinus(
+        override fun getTemperatureFromResistancePlus(
             nominalResistance: Double,
             resistance: Double): Double {
             super.getTemperatureFromResistanceMinus(nominalResistance, resistance)
