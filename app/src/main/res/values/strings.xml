@@ -13,7 +13,8 @@
     <string-array name="rtd_material">
         <item>Никель</item>
         <item>Медь</item>
-        <item>Платина</item>
+        <item>Платина(PT)</item>
+        <item>Платина(П)</item>
     </string-array>
     <string-array name="rtd_resistance">
         <item>50</item>

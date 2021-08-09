@@ -1,5 +1,6 @@
 package com.anatolykravchenko.kipcalculator
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,28 +9,28 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
-import java.lang.Math.pow
-import android.content.pm.ActivityInfo
 
+enum class SensorType {
+    PlatinumPT, PlatinumP, Coopers, Nickel
+}
 
 class CalcResistanceToTemperatureActivity: AppCompatActivity() {
     private lateinit var binding: RtdActivityBinding
 
 
     var nominalResistance: Double = 50.0
-    var materialSelected: Long = 0
+    lateinit var materialType: Enum<SensorType>
     var resistance: Double = 0.0
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
 
-     //   requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         super.onCreate(savedInstanceState)
         setContentView(R.layout.rtd_activity)
         binding = RtdActivityBinding.inflate(layoutInflater)
 
         val view = binding.root
         setContentView(view)
-
 
         val materialRTDSpinner = binding.RDTMaterialSpinner
         val nominalResSpinner = binding.rtdResistanceSpinner
@@ -52,8 +53,13 @@ class CalcResistanceToTemperatureActivity: AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-              //  binding.outTestTextView.text = adapter.getItem(position)
-                materialSelected = adapterRTD.getItemId(position)
+                //Обрабатываем материал датчтика.
+                when(adapterRTD.getItem(position).toString()) {
+                    "Никель" -> { materialType = SensorType.Nickel }
+                    "Медь" -> {materialType = SensorType.Coopers}
+                    "Платина(PT)" -> {materialType = SensorType.PlatinumPT}
+                    "Платина(П)" -> {materialType = SensorType.PlatinumP}
+                }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
@@ -99,9 +105,10 @@ class CalcResistanceToTemperatureActivity: AppCompatActivity() {
         })
         //обрабатываем кнопку
         binding.resistanceToTempButton.setOnClickListener {
-            val temp = ResistanceToTemperature.PlatinaSensor(nominalResistance, resistance)
+            val temp = ResistanceToTemperature.PlatinumSensorPT(nominalResistance, resistance)
                 .getOperationType(nominalResistance, resistance)
-            binding.outTestTextView.text = temp.toString()
+            binding.outTestTextView.text = "Значение температуры ${temp.toString()}f"
+           // binding.outTestTextView.text = materialType.toString()
         }
     }
 
