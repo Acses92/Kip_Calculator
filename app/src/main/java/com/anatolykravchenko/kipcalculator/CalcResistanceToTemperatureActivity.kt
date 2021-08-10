@@ -11,15 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
 
 enum class SensorType {
-    PlatinumPT, PlatinumP, Coopers, Nickel
+    PlatinumPT, PlatinumP, Coopers
 }
 
 class CalcResistanceToTemperatureActivity: AppCompatActivity() {
     private lateinit var binding: RtdActivityBinding
-
-
     var nominalResistance: Double = 50.0
     lateinit var materialType: Enum<SensorType>
+    var materialTypeString: String = ""
     var resistance: Double = 0.0
 
     @SuppressLint("SetTextI18n")
@@ -55,10 +54,9 @@ class CalcResistanceToTemperatureActivity: AppCompatActivity() {
             ) {
                 //Обрабатываем материал датчтика.
                 when(adapterRTD.getItem(position).toString()) {
-                    "Никель" -> { materialType = SensorType.Nickel }
-                    "Медь" -> {materialType = SensorType.Coopers}
-                    "Платина(PT)" -> {materialType = SensorType.PlatinumPT}
-                    "Платина(П)" -> {materialType = SensorType.PlatinumP}
+                    "Медь" -> {materialTypeString = SensorType.Coopers.toString()}
+                    "Платина(PT)" -> {materialTypeString = SensorType.PlatinumPT.toString()}
+                    "Платина(П)" -> {materialTypeString = SensorType.PlatinumP.toString()}
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -105,9 +103,11 @@ class CalcResistanceToTemperatureActivity: AppCompatActivity() {
         })
         //обрабатываем кнопку
         binding.resistanceToTempButton.setOnClickListener {
-            val temp = ResistanceToTemperature.PlatinumSensorPT(nominalResistance, resistance)
-                .getOperationType(nominalResistance, resistance)
-            binding.outTestTextView.text = "Значение температуры ${temp.toString()}f"
+            //val temp = ResistanceToTemperature.PlatinumSensorPT(nominalResistance, resistance)
+             //   .getOperationType(nominalResistance, resistance)
+            val temp = ResistanceToTemperature(nominalResistance, resistance).
+            sensorSelector(materialTypeString, nominalResistance, resistance)
+            binding.outTestTextView.text = "Значение температуры ${temp.toString()}"
            // binding.outTestTextView.text = materialType.toString()
         }
     }

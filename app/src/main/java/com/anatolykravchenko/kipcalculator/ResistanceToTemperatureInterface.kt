@@ -19,7 +19,31 @@ interface ResistanceToTemperatureInterface {
     }
 }
 
-class ResistanceToTemperature {
+class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
+
+    fun sensorSelector(
+        sensorTypeString: String,
+        nominalResistance: Double,
+        resistance: Double
+    ): Double {
+
+        return when (sensorTypeString) {
+            //    SensorType.Nickel -> NickelSensor(nominalResistance, resistance)
+            "Coopers" -> CopperSensor(nominalResistance, resistance).getOperationType(
+                nominalResistance,
+                resistance
+            )
+            "PlatinumPT" -> PlatinumSensorPT(nominalResistance, resistance).getOperationType(
+                nominalResistance,
+                resistance
+            )
+            "PlatinumP" -> PlatinumSensorP(nominalResistance, resistance).getOperationType(
+                nominalResistance,
+                resistance
+            )
+            else -> 0.00
+        }
+    }
 
     //Расчёт для датчика PT
      class PlatinumSensorPT(override var nominalResistance: Double,
@@ -31,7 +55,7 @@ class ResistanceToTemperature {
                     resistance)
 
             } else {
-                PlatinumSensorPT(nominalResistance, resistance).getTemperatureFromResistanceMinus(nominalResistance,
+                PlatinumSensorPT(nominalResistance, resistance).getTemperatureFromResistancePlus(nominalResistance,
                     resistance)
             }
         }
@@ -65,7 +89,16 @@ class ResistanceToTemperature {
     class PlatinumSensorP(override var nominalResistance: Double,
                            override var resistance: Double): ResistanceToTemperatureInterface {
 
+        override fun getOperationType(nominalResistance: Double, resistance: Double):Double {
+            return if(resistance/nominalResistance<1) {
+                PlatinumSensorP(nominalResistance, resistance).getTemperatureFromResistanceMinus(nominalResistance,
+                    resistance)
 
+            } else {
+                PlatinumSensorP(nominalResistance, resistance).getTemperatureFromResistancePlus(nominalResistance,
+                    resistance)
+            }
+        }
         override fun getTemperatureFromResistanceMinus(nominalResistance: Double,
                                                        resistance: Double): Double {
             super.getTemperatureFromResistancePlus(nominalResistance, resistance)
@@ -84,11 +117,11 @@ class ResistanceToTemperature {
             nominalResistance: Double,
             resistance: Double): Double {
             super.getTemperatureFromResistanceMinus(nominalResistance, resistance)
-            val aCoefficient: Double = 3.9690-3
+            val aCoefficient: Double = 3.9690e-3
             val bCoefficient: Double = -5.841e-7
 
-            return String.format("%.3f",(((kotlin.math.sqrt(Math.pow(aCoefficient, 2.0) - 4 * bCoefficient * (1 - resistance / nominalResistance)))
-                    - aCoefficient) /(2 * bCoefficient))).toDouble()
+            return String.format("%.3f",((kotlin.math.sqrt(Math.pow(aCoefficient, 2.0) - 4 * bCoefficient * (1 - resistance / nominalResistance)))
+                    - aCoefficient) /(2 * bCoefficient)).toDouble()
         }
     }
 
@@ -96,8 +129,49 @@ class ResistanceToTemperature {
     class CopperSensor(override var nominalResistance: Double,
                        override var resistance: Double): ResistanceToTemperatureInterface {
 
-    }
 
+        override fun getOperationType(nominalResistance: Double, resistance: Double):Double {
+            return if(resistance/nominalResistance<1) {
+                CopperSensor(nominalResistance, resistance).getTemperatureFromResistanceMinus(nominalResistance,
+                    resistance)
+
+            } else {
+                CopperSensor(nominalResistance, resistance).getTemperatureFromResistancePlus(nominalResistance,
+                    resistance)
+            }
+        }
+
+        override fun getTemperatureFromResistanceMinus(
+            nominalResistance: Double,
+            resistance: Double
+        ): Double {
+            super.getTemperatureFromResistanceMinus(nominalResistance, resistance)
+
+            val d1: Double = 233.87
+            val d2: Double = 7.9370
+            val d3: Double = -2.0062
+            val d4: Double = -0.3953
+            val inputNam: Double = resistance/nominalResistance - 1.00
+
+            return d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
+                    d4* Math.pow(inputNam, 4.0)
+
+        }
+        override fun getTemperatureFromResistancePlus(
+            nominalResistance: Double,
+            resistance: Double
+        ): Double {
+            super.getTemperatureFromResistancePlus(nominalResistance, resistance)
+            val A: Double = 4.28e-3
+            return (resistance/nominalResistance - 1)/A
+        }
+    }
+/*
+    class NickelSensor(override var nominalResistance: Double,
+                       override var resistance: Double): ResistanceToTemperatureInterface {
+
+    }
+*/
 
 }
 
