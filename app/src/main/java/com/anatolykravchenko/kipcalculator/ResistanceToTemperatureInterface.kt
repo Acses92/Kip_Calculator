@@ -109,8 +109,8 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
 
             val inputNam: Double = resistance/nominalResistance - 1.00
 
-            return  d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
-                    d4* Math.pow(inputNam, 4.0)
+            return  String.format("%.3f",d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
+                    d4* Math.pow(inputNam, 4.0)).toDouble()
         }
 
         override fun getTemperatureFromResistancePlus(
@@ -136,8 +136,8 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
                     resistance)
 
             } else {
-                CopperSensor(nominalResistance, resistance).getTemperatureFromResistancePlus(nominalResistance,
-                    resistance)
+                String.format("%.3f",CopperSensor(nominalResistance, resistance).getTemperatureFromResistancePlus(nominalResistance,
+                    resistance)).toDouble()
             }
         }
 
@@ -153,8 +153,8 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
             val d4: Double = -0.3953
             val inputNam: Double = resistance/nominalResistance - 1.00
 
-            return d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
-                    d4* Math.pow(inputNam, 4.0)
+            return String.format("%.3f",d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
+                    d4* Math.pow(inputNam, 4.0)).toDouble()
 
         }
         override fun getTemperatureFromResistancePlus(
@@ -163,7 +163,7 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
         ): Double {
             super.getTemperatureFromResistancePlus(nominalResistance, resistance)
             val A: Double = 4.28e-3
-            return (resistance/nominalResistance - 1)/A
+            return String.format("%.3f",(resistance/nominalResistance - 1)/A).toDouble()
         }
     }
 /*
