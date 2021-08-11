@@ -105,8 +105,7 @@ class CalcResistanceToTemperatureActivity: AppCompatActivity() {
         binding.resistanceToTempButton.setOnClickListener {
             //val temp = ResistanceToTemperature.PlatinumSensorPT(nominalResistance, resistance)
              //   .getOperationType(nominalResistance, resistance)
-            val temp = ResistanceToTemperature(nominalResistance, resistance).
-            sensorSelector(materialTypeString, nominalResistance, resistance)
+            val temp = ResistanceToTemperature(nominalResistance,resistance).sensorSelector(materialTypeString, nominalResistance, resistance)
             binding.outTestTextView.text = "Значение температуры ${temp.toString()}"
            // binding.outTestTextView.text = materialType.toString()
         }

@@ -1,5 +1,7 @@
 package com.anatolykravchenko.kipcalculator
 
+import com.anatolykravchenko.kipcalculator.CalcResistanceToTemperatureActivity
+
 interface ResistanceToTemperatureInterface {
 
     var  nominalResistance: Double
@@ -19,7 +21,7 @@ interface ResistanceToTemperatureInterface {
     }
 }
 
-class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
+class ResistanceToTemperature(nominalResistance: Double, resistance: Double){
 
     fun sensorSelector(
         sensorTypeString: String,
@@ -70,8 +72,8 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
 
             val inputNam: Double = resistance/nominalResistance - 1.00
 
-            return  String.format("%.3f",d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
-                     d4* Math.pow(inputNam, 4.0)).toDouble()
+            return  d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
+                     d4* Math.pow(inputNam, 4.0)
         }
         override fun getTemperatureFromResistancePlus(
             nominalResistance: Double,
@@ -80,8 +82,8 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
             val aCoefficient: Double = 3.9083e-3
             val bCoefficient: Double = -5.775e-7
 
-            return String.format("%.3f",((kotlin.math.sqrt(Math.pow(aCoefficient, 2.0) - 4 * bCoefficient * (1 - resistance / nominalResistance)))
-                    - aCoefficient) /(2 * bCoefficient)).toDouble()
+            return ((kotlin.math.sqrt(Math.pow(aCoefficient, 2.0) - 4 * bCoefficient * (1 - resistance / nominalResistance)))
+                    - aCoefficient) /(2 * bCoefficient)
         }
     }
 
@@ -109,8 +111,8 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
 
             val inputNam: Double = resistance/nominalResistance - 1.00
 
-            return  String.format("%.3f",d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
-                    d4* Math.pow(inputNam, 4.0)).toDouble()
+            return  d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
+                    d4* Math.pow(inputNam, 4.0)
         }
 
         override fun getTemperatureFromResistancePlus(
@@ -120,8 +122,8 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
             val aCoefficient: Double = 3.9690e-3
             val bCoefficient: Double = -5.841e-7
 
-            return String.format("%.3f",((kotlin.math.sqrt(Math.pow(aCoefficient, 2.0) - 4 * bCoefficient * (1 - resistance / nominalResistance)))
-                    - aCoefficient) /(2 * bCoefficient)).toDouble()
+            return ((kotlin.math.sqrt(Math.pow(aCoefficient, 2.0) - 4 * bCoefficient * (1 - resistance / nominalResistance)))
+                    - aCoefficient) /(2 * bCoefficient)
         }
     }
 
@@ -136,8 +138,8 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
                     resistance)
 
             } else {
-                String.format("%.3f",CopperSensor(nominalResistance, resistance).getTemperatureFromResistancePlus(nominalResistance,
-                    resistance)).toDouble()
+                CopperSensor(nominalResistance, resistance).getTemperatureFromResistancePlus(nominalResistance,
+                    resistance)
             }
         }
 
@@ -153,8 +155,8 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
             val d4: Double = -0.3953
             val inputNam: Double = resistance/nominalResistance - 1.00
 
-            return String.format("%.3f",d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
-                    d4* Math.pow(inputNam, 4.0)).toDouble()
+            return d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
+                    d4* Math.pow(inputNam, 4.0)
 
         }
         override fun getTemperatureFromResistancePlus(
@@ -163,7 +165,7 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double) {
         ): Double {
             super.getTemperatureFromResistancePlus(nominalResistance, resistance)
             val A: Double = 4.28e-3
-            return String.format("%.3f",(resistance/nominalResistance - 1)/A).toDouble()
+            return (resistance/nominalResistance - 1)/A
         }
     }
 /*
