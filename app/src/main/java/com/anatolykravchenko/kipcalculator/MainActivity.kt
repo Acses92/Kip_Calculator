@@ -17,9 +17,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.curentLoopChcoiseButton.setOnClickListener {
 
-        }
 
         binding.rtdChoiceButton.setOnClickListener {
             val intent = Intent(this, CalcResistanceToTemperatureActivity::class.java)

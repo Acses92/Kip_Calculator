@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">KIP Calculator</string>
     <string name="hello_word">Программа расчёта нормированных величин</string>
-    <string name="rtd_choice_button_text">Расчет ТСПТ</string>
-    <string name="cur_loop_choise_text">Расчет токовой петли</string>
+    <string name="rtd_choice_button_text">Расчёт температуры по сопротивлению</string>
+    <string name="temp_to_resistance_choice_button">Расчёт сопротивления по температуре</string>
     <string name="rtd_hello_word_txt">Расчет термопреобразователя сопротивления</string>
     <string name="chose_material_rtd_txt">Материал ЧЭ</string>
     <string name="chose_nominal_resistance_val">Номинальное сопротивление</string>
