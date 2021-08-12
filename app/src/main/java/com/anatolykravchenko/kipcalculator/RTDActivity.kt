@@ -14,7 +14,7 @@ enum class SensorType {
     PlatinumPT, PlatinumP, Coopers
 }
 
-class CalcResistanceToTemperatureActivity: AppCompatActivity() {
+class RTDActivity: AppCompatActivity() {
     private lateinit var binding: RtdActivityBinding
     var nominalResistance: Double = 50.0
     lateinit var materialType: Enum<SensorType>
@@ -86,23 +86,23 @@ class CalcResistanceToTemperatureActivity: AppCompatActivity() {
         }
 
         //обрабатывае ввод сопротивления
-        binding.resistanceEditText.addTextChangedListener(object : TextWatcher {
+        binding.rtdEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if(s.contentEquals(""))
                 {
                     resistance = 0.0
-                    binding.resistanceToTempButton.isEnabled = false
+                    binding.rtdResultButton.isEnabled = false
                 }
                 else {
-                    binding.resistanceToTempButton.isEnabled = true
+                    binding.rtdResultButton.isEnabled = true
                     resistance = s.toString().toDouble()
                 }
             }
         })
         //обрабатываем кнопку
-        binding.resistanceToTempButton.setOnClickListener {
+        binding.rtdResultButton.setOnClickListener {
             //val temp = ResistanceToTemperature.PlatinumSensorPT(nominalResistance, resistance)
              //   .getOperationType(nominalResistance, resistance)
             val temp = ResistanceToTemperature(nominalResistance,resistance).sensorSelector(materialTypeString, nominalResistance, resistance)

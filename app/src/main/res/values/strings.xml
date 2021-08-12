@@ -1,15 +1,20 @@
 <resources>
     <string name="app_name">KIP Calculator</string>
     <string name="hello_word">Программа расчёта нормированных величин</string>
-    <string name="rtd_choice_button_text">Расчёт температуры по сопротивлению</string>
+    <string name="rtd_choice_button_text">НСХ датчиков температуры</string>
     <string name="temp_to_resistance_choice_button">Расчёт сопротивления по температуре</string>
-    <string name="rtd_hello_word_txt">Расчет термопреобразователя сопротивления</string>
+    <string name="rtd_hello_word_txt">Расчёт характеристик датчика температуры</string>
     <string name="chose_material_rtd_txt">Материал ЧЭ</string>
     <string name="chose_nominal_resistance_val">Номинальное сопротивление</string>
     <string name="chose_RTD_operation">Выберите операцию</string>
-    <string name="resistance_input_text">Значение сопротивления</string>
+    <string name="value_input_text">Введите значение</string>
     <string name="resistance_to_temp_button">Рассчитать температуру</string>
     <string name="out_text_tex_view" />
+    <string name="temperature_input_text">Введите сопротивление</string>
+    <string name="temperature_to_temp_button">Рассчитать сопротивление</string>
+    <string name="res_radio_button">Температуру</string>
+    <string name="invite_text_txt">Рассчитываем</string>
+    <string name="temp_radio_button">Сопротивление</string>
     <string-array name="rtd_material">
         <item>Медь</item>
         <item>Платина(PT)</item>

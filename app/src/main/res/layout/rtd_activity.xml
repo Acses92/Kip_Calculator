@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp">
 
     <TextView
         android:id="@+id/rtdResistanceToTemperature"
@@ -41,7 +43,7 @@
         android:id="@+id/chooseNominalResitanceVT"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="28dp"
         android:text="@string/chose_nominal_resistance_val"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/RDTMaterialSpinner" />
 
     <EditText
-        android:id="@+id/resistanceEditText"
+        android:id="@+id/rtdEditText"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="26dp"
@@ -69,37 +71,76 @@
         app:layout_constraintTop_toBottomOf="@+id/rtdResistanceSpinner" />
 
     <TextView
-        android:id="@+id/resistanceInputText"
+        android:id="@+id/rtdInputText"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/resistance_input_text"
+        android:text="@string/value_input_text"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/resistanceEditText"
+        app:layout_constraintEnd_toStartOf="@+id/rtdEditText"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chooseNominalResitanceVT" />
 
     <Button
-        android:id="@+id/resistanceToTempButton"
+        android:id="@+id/rtdResultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:enabled="false"
         android:text="@string/resistance_to_temp_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resistanceEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/rtdRadioGroup" />
 
     <TextView
         android:id="@+id/outTestTextView"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="15dp"
         android:text="@string/out_text_tex_view"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resistanceToTempButton" />
+        app:layout_constraintTop_toBottomOf="@+id/rtdResultButton" />
+
+    <RadioGroup
+        android:id="@+id/rtdRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inviteText">
+
+        <RadioButton
+            android:id="@+id/resToTempRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/res_radio_button"
+            tools:layout_editor_absoluteX="189dp"
+            tools:layout_editor_absoluteY="355dp" />
+
+        <RadioButton
+            android:id="@+id/tempToResistRadioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/temp_radio_button"
+            tools:layout_editor_absoluteX="298dp"
+            tools:layout_editor_absoluteY="355dp" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/inviteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/invite_text_txt"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rtdEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

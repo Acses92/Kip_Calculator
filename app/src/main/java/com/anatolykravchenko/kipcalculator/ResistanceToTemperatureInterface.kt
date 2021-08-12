@@ -1,7 +1,5 @@
 package com.anatolykravchenko.kipcalculator
 
-import com.anatolykravchenko.kipcalculator.CalcResistanceToTemperatureActivity
-
 interface ResistanceToTemperatureInterface {
 
     var  nominalResistance: Double
