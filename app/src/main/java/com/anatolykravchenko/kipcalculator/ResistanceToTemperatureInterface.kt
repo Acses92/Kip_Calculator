@@ -1,5 +1,7 @@
 package com.anatolykravchenko.kipcalculator
 
+import kotlin.math.pow
+
 interface ResistanceToTemperatureInterface {
 
     var  nominalResistance: Double
@@ -70,8 +72,8 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double){
 
             val inputNam: Double = resistance/nominalResistance - 1.00
 
-            return  d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
-                     d4* Math.pow(inputNam, 4.0)
+            return  d1*inputNam+d2* inputNam.pow(2.0) + d3* inputNam.pow(3.0) +
+                     d4* inputNam.pow(4.0)
         }
         override fun getTemperatureFromResistancePlus(
             nominalResistance: Double,
@@ -80,7 +82,7 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double){
             val aCoefficient: Double = 3.9083e-3
             val bCoefficient: Double = -5.775e-7
 
-            return ((kotlin.math.sqrt(Math.pow(aCoefficient, 2.0) - 4 * bCoefficient * (1 - resistance / nominalResistance)))
+            return ((kotlin.math.sqrt(aCoefficient.pow(2.0) - 4 * bCoefficient * (1 - resistance / nominalResistance)))
                     - aCoefficient) /(2 * bCoefficient)
         }
     }
@@ -109,7 +111,7 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double){
 
             val inputNam: Double = resistance/nominalResistance - 1.00
 
-            return  d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
+            return  d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* inputNam.pow(3.0) +
                     d4* Math.pow(inputNam, 4.0)
         }
 
@@ -120,7 +122,7 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double){
             val aCoefficient: Double = 3.9690e-3
             val bCoefficient: Double = -5.841e-7
 
-            return ((kotlin.math.sqrt(Math.pow(aCoefficient, 2.0) - 4 * bCoefficient * (1 - resistance / nominalResistance)))
+            return ((kotlin.math.sqrt(aCoefficient.pow(2.0) - 4 * bCoefficient * (1 - resistance / nominalResistance)))
                     - aCoefficient) /(2 * bCoefficient)
         }
     }
@@ -153,7 +155,7 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double){
             val d4: Double = -0.3953
             val inputNam: Double = resistance/nominalResistance - 1.00
 
-            return d1*inputNam+d2* Math.pow(inputNam, 2.0) + d3* Math.pow(inputNam, 3.0) +
+            return d1*inputNam+d2* inputNam.pow(2.0) + d3* inputNam.pow(3.0) +
                     d4* Math.pow(inputNam, 4.0)
 
         }
