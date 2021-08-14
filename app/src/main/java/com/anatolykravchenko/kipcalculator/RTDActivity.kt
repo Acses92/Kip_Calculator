@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
 import java.lang.Exception
 import java.math.RoundingMode
-import kotlin.NullPointerException
-import kotlin.math.roundToLong
 
 enum class SensorType {
     PlatinumPT, PlatinumP, Coopers
