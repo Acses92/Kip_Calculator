@@ -9,7 +9,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
+import java.lang.Exception
 import java.math.RoundingMode
+import kotlin.NullPointerException
 import kotlin.math.roundToLong
 
 enum class SensorType {
@@ -107,15 +109,26 @@ class RTDActivity: AppCompatActivity() {
         //обрабатываем кнопку
         binding.rtdResultButton.setOnClickListener {
             if(binding.resToTempRadioButton.isChecked) {
-                val temp = ResistanceToTemperature(nominalResistance, inputValue).
-                sensorSelector(materialTypeString, nominalResistance, inputValue).
-                toBigDecimal().setScale(3,RoundingMode.UP)
-                "Значение температуры $temp".also { binding.outTestTextView.text = it }
+
+                try {
+                    val temp = ResistanceToTemperature(nominalResistance, inputValue).
+                    sensorSelector(materialTypeString, nominalResistance, inputValue).
+                    toBigDecimal().setScale(3,RoundingMode.UP)
+                    "Значение температуры $temp".also { binding.outTestTextView.text = it }
+                } catch(e: Exception) {
+                    binding.outTestTextView.text = "Введено некоректное значение"
+                }
+
             } else {
-                val res = TemperatureToResistance(nominalResistance, inputValue).
-                sensorSelector(materialTypeString, nominalResistance, inputValue).
-                toBigDecimal().setScale(3,RoundingMode.UP)
-                "Значение сопротивления $res".also { binding.outTestTextView.text = it }
+
+                try {
+                    val res = TemperatureToResistance(nominalResistance, inputValue).
+                    sensorSelector(materialTypeString, nominalResistance, inputValue).
+                    toBigDecimal().setScale(3,RoundingMode.UP)
+                    "Значение сопротивления $res".also { binding.outTestTextView.text = it }
+                } catch (e: Exception) {
+                    binding.outTestTextView.text = "Введено некоректное значение"
+                }
             }
         }
     }
