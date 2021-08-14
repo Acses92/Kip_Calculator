@@ -156,7 +156,7 @@ class ResistanceToTemperature(nominalResistance: Double, resistance: Double){
             val inputNam: Double = resistance/nominalResistance - 1.00
 
             return d1*inputNam+d2* inputNam.pow(2.0) + d3* inputNam.pow(3.0) +
-                    d4* Math.pow(inputNam, 4.0)
+                    d4* inputNam.pow(4.0)
 
         }
         override fun getTemperatureFromResistancePlus(

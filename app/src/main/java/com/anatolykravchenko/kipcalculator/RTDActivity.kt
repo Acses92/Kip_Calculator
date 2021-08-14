@@ -9,6 +9,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
+import java.math.RoundingMode
+import kotlin.math.roundToLong
 
 enum class SensorType {
     PlatinumPT, PlatinumP, Coopers
@@ -106,18 +108,17 @@ class RTDActivity: AppCompatActivity() {
         binding.rtdResultButton.setOnClickListener {
             if(binding.resToTempRadioButton.isChecked) {
                 val temp = ResistanceToTemperature(nominalResistance, inputValue).
-                sensorSelector(materialTypeString, nominalResistance, inputValue)
-                "Значение температуры ${temp.toString().format(temp, )}".also { binding.outTestTextView.text = it }
+                sensorSelector(materialTypeString, nominalResistance, inputValue).
+                toBigDecimal().setScale(3,RoundingMode.UP)
+                "Значение температуры $temp".also { binding.outTestTextView.text = it }
             } else {
                 val res = TemperatureToResistance(nominalResistance, inputValue).
-                sensorSelector(materialTypeString, nominalResistance, inputValue)
-                "Значение сопротивления ${res.toString().format(res, 3.00)}".also { binding.outTestTextView.text = it }
+                sensorSelector(materialTypeString, nominalResistance, inputValue).
+                toBigDecimal().setScale(3,RoundingMode.UP)
+                "Значение сопротивления $res".also { binding.outTestTextView.text = it }
             }
         }
     }
-
-
-
 }
 
 
