@@ -19,7 +19,7 @@ class RTDActivity: AppCompatActivity() {
     var nominalResistance: Double = 50.0
     lateinit var materialType: Enum<SensorType>
     var materialTypeString: String = ""
-    var resistance: Double = 0.0
+    var inputValue: Double = 0.0
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,22 +92,27 @@ class RTDActivity: AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if(s.contentEquals(""))
                 {
-                    resistance = 0.0
+                    inputValue = 0.0
                     binding.rtdResultButton.isEnabled = false
                 }
                 else {
                     binding.rtdResultButton.isEnabled = true
-                    resistance = s.toString().toDouble()
+                    inputValue = s.toString().toDouble()
                 }
             }
         })
+
         //обрабатываем кнопку
         binding.rtdResultButton.setOnClickListener {
-            //val temp = ResistanceToTemperature.PlatinumSensorPT(nominalResistance, resistance)
-             //   .getOperationType(nominalResistance, resistance)
-            val temp = ResistanceToTemperature(nominalResistance,resistance).sensorSelector(materialTypeString, nominalResistance, resistance)
-            binding.outTestTextView.text = "Значение температуры ${temp.toString()}"
-           // binding.outTestTextView.text = materialType.toString()
+            if(binding.resToTempRadioButton.isChecked) {
+                val temp = ResistanceToTemperature(nominalResistance, inputValue).
+                sensorSelector(materialTypeString, nominalResistance, inputValue)
+                "Значение температуры ${temp.toString().format(temp, )}".also { binding.outTestTextView.text = it }
+            } else {
+                val res = TemperatureToResistance(nominalResistance, inputValue).
+                sensorSelector(materialTypeString, nominalResistance, inputValue)
+                "Значение сопротивления ${res.toString().format(res, 3.00)}".also { binding.outTestTextView.text = it }
+            }
         }
     }
 

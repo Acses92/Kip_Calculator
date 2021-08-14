@@ -28,7 +28,18 @@ class TemperatureToResistance(nominalResistance: Double, temperature: Double) {
     ): Double {
         return when (sensorTypeString) {
             //    SensorType.Nickel -> NickelSensor(nominalResistance, resistance)
-
+            "Coopers" -> CopperTempToResistance(nominalResistance, temperature).getOperationType(
+                nominalResistance,
+                temperature
+            )
+            "PlatinumPT" -> PTSensorTempToResistance(nominalResistance, temperature).getOperationType(
+                nominalResistance,
+                temperature
+            )
+            "PlatinumP" ->PSensorTempToResistance(nominalResistance, temperature).getOperationType(
+                nominalResistance,
+                temperature
+            )
             else -> 0.00
         }
     }
@@ -42,10 +53,10 @@ class TemperatureToResistance(nominalResistance: Double, temperature: Double) {
         override val cCoef: Double = -4.183e-12
 
         override fun getOperationType(nominalResistance: Double, temperature: Double): Double {
-            return if(temperature > 0) {getResistanceFromTemperatureMinus(nominalResistance,
+            return if(temperature > 0) {getResistanceFromTemperaturePlus(nominalResistance,
                 temperature)}
             else {
-                getResistanceFromTemperaturePlus(nominalResistance, temperature) }
+                getResistanceFromTemperatureMinus(nominalResistance, temperature) }
             }
         override fun getResistanceFromTemperatureMinus(
             nominalResistance: Double,
@@ -71,10 +82,10 @@ class TemperatureToResistance(nominalResistance: Double, temperature: Double) {
         override val cCoef: Double = -4.330e-12
 
         override fun getOperationType(nominalResistance: Double, temperature: Double): Double {
-            return if(temperature > 0) {getResistanceFromTemperatureMinus(nominalResistance,
+            return if(temperature > 0) {getResistanceFromTemperaturePlus(nominalResistance,
                 temperature)}
             else {
-                getResistanceFromTemperaturePlus(nominalResistance, temperature) }
+                getResistanceFromTemperatureMinus(nominalResistance, temperature) }
         }
 
         override fun getResistanceFromTemperatureMinus(
@@ -97,15 +108,15 @@ class TemperatureToResistance(nominalResistance: Double, temperature: Double) {
         override var nominalResistance: Double,
         override var temperature: Double
     ): TemperatureToResistanceInterface {
-        override val aCoef: Double = 3.9690e-3
-        override val bCoef: Double = -5.841e-7
-        override val cCoef: Double = -4.330e-12
+        override val aCoef: Double = 4.28e-3
+        override val bCoef: Double = -6.2032e-7
+        override val cCoef: Double = 8.5154e-12
 
         override fun getOperationType(nominalResistance: Double, temperature: Double):Double {
-            return if(temperature > 0) {getResistanceFromTemperatureMinus(nominalResistance,
+            return if(temperature > 0) {getResistanceFromTemperaturePlus(nominalResistance,
                 temperature)}
             else {
-                getResistanceFromTemperaturePlus(nominalResistance, temperature) }
+                getResistanceFromTemperatureMinus(nominalResistance, temperature) }
         }
 
         override fun getResistanceFromTemperatureMinus(
@@ -120,7 +131,7 @@ class TemperatureToResistance(nominalResistance: Double, temperature: Double) {
             nominalResistance: Double,
             temperature: Double
         ): Double {
-            return nominalResistance*(1.00+aCoef*temperature+bCoef*temperature.pow(2.00))
+            return nominalResistance*(1.00+aCoef*temperature)
         }
     }
 
