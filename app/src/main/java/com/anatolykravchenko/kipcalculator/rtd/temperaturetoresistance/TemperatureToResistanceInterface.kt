@@ -1,6 +1,6 @@
-package com.anatolykravchenko.kipcalculator
+package com.anatolykravchenko.kipcalculator.rtd.temperaturetoresistance
 
-interface ITemperatureToResistanceInterface {
+interface TemperatureToResistanceInterface {
     var nominalResistance: Double
     var temperature: Double
     val aCoef: Double

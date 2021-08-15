@@ -1,12 +1,11 @@
-package com.anatolykravchenko.kipcalculator.temperaturetoresistance
+package com.anatolykravchenko.kipcalculator.rtd.temperaturetoresistance
 
-import com.anatolykravchenko.kipcalculator.ITemperatureToResistanceInterface
 import kotlin.math.pow
 
 class CopperTempToResistance(
     override var nominalResistance: Double,
     override var temperature: Double
-): ITemperatureToResistanceInterface {
+): TemperatureToResistanceInterface {
     override val aCoef: Double = 4.28e-3
     override val bCoef: Double = -6.2032e-7
     override val cCoef: Double = 8.5154e-12

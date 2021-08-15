@@ -1,6 +1,6 @@
-package com.anatolykravchenko.kipcalculator.resistancetotemperautre
+package com.anatolykravchenko.kipcalculator.rtd.resistancetotemperautre
 
-interface IResistanceToTemperatureInterface {
+interface ResistanceToTemperatureInterface {
     var  nominalResistance: Double
     var resistance: Double
     fun getOperationType(nominalResistance: Double, resistance: Double): Double

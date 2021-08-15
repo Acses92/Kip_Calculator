@@ -1,9 +1,9 @@
-package com.anatolykravchenko.kipcalculator.resistancetotemperautre
+package com.anatolykravchenko.kipcalculator.rtd.resistancetotemperautre
 
 import kotlin.math.pow
 
 class PTSensorResistanceToTemp(override var nominalResistance: Double,
-                               override var resistance: Double): IResistanceToTemperatureInterface {
+                               override var resistance: Double): ResistanceToTemperatureInterface {
 
     override fun getOperationType(nominalResistance: Double, resistance: Double):Double {
         return if(resistance/nominalResistance<1) {

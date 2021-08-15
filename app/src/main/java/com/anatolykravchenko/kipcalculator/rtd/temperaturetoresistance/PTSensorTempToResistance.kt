@@ -1,11 +1,10 @@
-package com.anatolykravchenko.kipcalculator.temperaturetoresistance
-import com.anatolykravchenko.kipcalculator.ITemperatureToResistanceInterface
+package com.anatolykravchenko.kipcalculator.rtd.temperaturetoresistance
 
 import kotlin.math.pow
 
 class PTSensorTempToResistance(override var nominalResistance: Double,
                                override var temperature: Double
-): ITemperatureToResistanceInterface
+): TemperatureToResistanceInterface
 {
     override val aCoef: Double = 3.9083e-3
     override val bCoef: Double = -5.775e-7

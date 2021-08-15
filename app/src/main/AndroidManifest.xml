@@ -11,15 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KIPCalculator">
 
-        <activity android:name=".MainActivity"
-            android:screenOrientation="nosensor" >
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RTDActivity"
-            android:screenOrientation="nosensor" />
+        <activity android:name=".RTDActivity" />
 
     </application>
 
