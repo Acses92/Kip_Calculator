@@ -9,6 +9,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
+import com.anatolykravchenko.kipcalculator.resistancetotemperautre.ResistanceToTemperatureSelector
+import com.anatolykravchenko.kipcalculator.temperaturetoresistance.TemperatureToResistanceSelector
 import java.lang.Exception
 import java.math.RoundingMode
 
@@ -109,7 +111,7 @@ class RTDActivity: AppCompatActivity() {
             if(binding.resToTempRadioButton.isChecked) {
 
                 try {
-                    val temp = ResistanceToTemperature(nominalResistance, inputValue).
+                    val temp = ResistanceToTemperatureSelector().
                     sensorSelector(materialTypeString, nominalResistance, inputValue).
                     toBigDecimal().setScale(3,RoundingMode.UP)
                     "Значение температуры $temp".also { binding.outTestTextView.text = it }
@@ -120,9 +122,13 @@ class RTDActivity: AppCompatActivity() {
             } else {
 
                 try {
-                    val res = TemperatureToResistance(nominalResistance, inputValue).
-                    sensorSelector(materialTypeString, nominalResistance, inputValue).
-                    toBigDecimal().setScale(3,RoundingMode.UP)
+                    val res = TemperatureToResistanceSelector().
+                    sensorSelector(materialTypeString,nominalResistance, inputValue).
+                    toBigDecimal().setScale(3, RoundingMode.UP)
+
+                    //val res = TemperatureToResistanceSelector(nominalResistance, inputValue).
+                    //sensorSelector(materialTypeString, nominalResistance, inputValue).
+                    //toBigDecimal().setScale(3,RoundingMode.UP)
                     "Значение сопротивления $res".also { binding.outTestTextView.text = it }
                 } catch (e: Exception) {
                     binding.outTestTextView.text = "Введено некоректное значение"
