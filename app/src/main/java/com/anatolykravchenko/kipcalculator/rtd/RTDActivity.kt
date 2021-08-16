@@ -108,12 +108,11 @@ class RTDActivity: AppCompatActivity() {
             }
         })
 
-        //обрабатываем кнопку
+        //обрабатываем кнопку получить значение
         binding.rtdResultButton.setOnClickListener {
             if(binding.resToTempRadioButton.isChecked) {
                 try {
-                    val temp = ResistanceToTemperatureSelector().
-                    sensorSelector(RTDViewModel.materialTypeString,
+                    val temp = RTDViewModel.getTemperature(RTDViewModel.materialTypeString,
                         RTDViewModel.nominalResistance,
                         RTDViewModel.inputValue).toBigDecimal().setScale(3,RoundingMode.UP)
                     "Значение температуры $temp".also { binding.outTestTextView.text = it }
@@ -121,8 +120,7 @@ class RTDActivity: AppCompatActivity() {
                     binding.outTestTextView.text = "Введено некоректное значение" }
             } else {
                 try {
-                    val res = TemperatureToResistanceSelector().
-                    sensorSelector(RTDViewModel.materialTypeString,
+                    val res = RTDViewModel.getResistance(RTDViewModel.materialTypeString,
                         RTDViewModel.nominalResistance,
                         RTDViewModel.inputValue).toBigDecimal().setScale(3, RoundingMode.UP)
 
