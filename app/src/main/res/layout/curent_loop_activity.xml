@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/inviteCurrentText"
+        android:layout_width="166dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/invite_current_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/curentValue" />
+
+    <TextView
+        android:id="@+id/curentValue"
+        android:layout_width="166dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/current_value"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lowCurrentLevel" />
+
+    <EditText
+        android:id="@+id/currentValueEditText"
+        android:layout_width="153dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="189dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="@+id/upermCurerntLevel"
+        app:layout_constraintTop_toBottomOf="@+id/lowCurrentLevelEditText" />
+
+    <EditText
+        android:id="@+id/lowCurrentLevelEditText"
+        android:layout_width="153dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="189dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="@+id/upermCurerntLevel"
+        app:layout_constraintTop_toBottomOf="@+id/upermCurrentLevelEditText" />
+
+    <TextView
+        android:id="@+id/lowCurrentLevel"
+        android:layout_width="166dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/low_curent_level_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/upermCurerntLevel" />
+
+    <TextView
+        android:id="@+id/curentLoopHelloWord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/current_loop_hello_word"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/upermCurerntLevel"
+        android:layout_width="165dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/upper_curent_level_text"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/curentLoopHelloWord" />
+
+    <EditText
+        android:id="@+id/upermCurrentLevelEditText"
+        android:layout_width="153dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="189dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/upermCurerntLevel"
+        app:layout_constraintTop_toBottomOf="@+id/curentLoopHelloWord" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/inviteCurrentText"
+        app:layout_constraintTop_toBottomOf="@+id/curentValue">
+
+        <RadioButton
+            android:id="@+id/currentRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="true"
+            android:text="@string/current_radio_button_text" />
+
+        <RadioButton
+            android:id="@+id/valueRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/value_radio_button" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/currentResultButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:enabled="false"
+        android:text="@string/current_result_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+    <TextView
+        android:id="@+id/currentResultEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/current_result_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentResultButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

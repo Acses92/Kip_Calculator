@@ -8,13 +8,23 @@
     <string name="chose_nominal_resistance_val">Номинальное сопротивление</string>
     <string name="chose_RTD_operation">Выберите операцию</string>
     <string name="value_input_text">Введите значение</string>
-    <string name="resistance_to_temp_button">Рассчитать температуру</string>
+    <string name="resistance_to_temp_button">Рассчитать</string>
     <string name="out_text_tex_view" />
     <string name="temperature_input_text">Введите сопротивление</string>
     <string name="temperature_to_temp_button">Рассчитать сопротивление</string>
     <string name="res_radio_button">Температуру</string>
     <string name="invite_text_txt">Рассчитываем</string>
     <string name="temp_radio_button">Сопротивление</string>
+    <string name="current_loop_hello_word">Расчёт значений токовой петли</string>
+    <string name="upper_curent_level_text">Верхнее граничное значение (20 мА)</string>
+    <string name="low_curent_level_text">Нижнее граничное значение (4 мА)</string>
+    <string name="current_radio_button_text">Ток</string>
+    <string name="value_radio_button">Величину</string>
+    <string name="invite_current_text">Рассчитываем</string>
+    <string name="current_result_button_text">Рассчитать</string>
+    <string name="current_result_edit_text">Значение</string>
+    <string name="current_loop_choise_button_text">Значение токовой петли</string>
+    <string name="current_value">Введите величину</string>
     <string-array name="rtd_material">
         <item>Медь</item>
         <item>Платина(PT)</item>
