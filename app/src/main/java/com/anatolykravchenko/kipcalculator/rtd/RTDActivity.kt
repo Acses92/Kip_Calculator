@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
@@ -117,7 +118,8 @@ class RTDActivity: AppCompatActivity() {
                         RTDViewModel.inputValue).toBigDecimal().setScale(3,RoundingMode.UP)
                     "Значение температуры $temp".also { binding.outTestTextView.text = it }
                 } catch(e: Exception) {
-                    binding.outTestTextView.text = "Введено некоректное значение" }
+                    Toast.makeText(applicationContext, "Получено некоректное значение",
+                        Toast.LENGTH_SHORT).show() }
             } else {
                 try {
                     val res = RTDViewModel.getResistance(RTDViewModel.materialTypeString,
@@ -126,7 +128,8 @@ class RTDActivity: AppCompatActivity() {
 
                     "Значение сопротивления $res".also { binding.outTestTextView.text = it }
                 } catch (e: Exception) {
-                    binding.outTestTextView.text = "Введено некоректное значение" }
+                    Toast.makeText(applicationContext, "Получено некоректное значение",
+                        Toast.LENGTH_SHORT).show() }
             }
 
         }

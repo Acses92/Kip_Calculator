@@ -1,7 +1,9 @@
 package com.anatolykravchenko.kipcalculator.currentloop
 
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.lang.Exception
 
 class CurrentLoopViewModel: ViewModel() {
 
@@ -9,13 +11,14 @@ class CurrentLoopViewModel: ViewModel() {
     var lowLimit: Double = 0.0
     var value: Double = 0.0
 
+
     fun getCurrent(lowLimit: Double, highLimit: Double, value: Double): Double {
-        return lowLimit
+        return 16.0*(value-lowLimit)/(highLimit-lowLimit)+4.0
     }
 
     fun getValue(lowLimit: Double, highLimit: Double, current: Double): Double {
-
-        return (((current - 4.0) * (highLimit - lowLimit)) / 16) + lowLimit
+        if (current in 4.0..20.0) {
+            return (((current - 4.0) * (highLimit - lowLimit)) / 16) + lowLimit
+        } else return Double.NaN
     }
-
 }
