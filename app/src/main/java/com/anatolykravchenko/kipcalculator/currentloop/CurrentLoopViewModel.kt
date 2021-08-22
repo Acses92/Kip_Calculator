@@ -10,6 +10,7 @@ class CurrentLoopViewModel: ViewModel() {
     var highLimit: Double = 0.0
     var lowLimit: Double = 0.0
     var value: Double = 0.0
+    var currentOperationType: Boolean = false
 
 
     fun getCurrent(lowLimit: Double, highLimit: Double, value: Double): Double {
@@ -17,8 +18,6 @@ class CurrentLoopViewModel: ViewModel() {
     }
 
     fun getValue(lowLimit: Double, highLimit: Double, current: Double): Double {
-        if (current in 4.0..20.0) {
             return (((current - 4.0) * (highLimit - lowLimit)) / 16) + lowLimit
-        } else return Double.NaN
     }
 }

@@ -6,12 +6,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.anatolykravchenko.kipcalculator.R
 import com.anatolykravchenko.kipcalculator.databinding.CurentLoopActivityBinding
-import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
 import java.lang.Exception
 import java.math.RoundingMode
 
@@ -27,6 +23,8 @@ class CurrentLoopActivity:AppCompatActivity() {
         val currentLoopVM = ViewModelProvider(this).get(CurrentLoopViewModel::class.java)
         setContentView(view)
 
+
+        //Обрабатываем ввод верхего значения токовой петли
         binding.upermCurrentLevelEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -39,6 +37,7 @@ class CurrentLoopActivity:AppCompatActivity() {
             }
         })
 
+        //Обрабатываем ввод нижнего значения токовой петли
         binding.lowCurrentLevelEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -51,6 +50,7 @@ class CurrentLoopActivity:AppCompatActivity() {
             }
         })
 
+        //Обрабатываем значение вводимой величины
         binding.currentValueEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -65,20 +65,30 @@ class CurrentLoopActivity:AppCompatActivity() {
             }
         })
 
+        //обрабатываем Radio Button. Это не красиво, но таков путь. false - расчитываем ток
+        //true - расчитываем измеряемую величину
+        binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            if(binding.currentRadioButton.isChecked){
+                currentLoopVM.currentOperationType = false
+            }
+            if(binding.valueRadioButton.isChecked) {
+                currentLoopVM.currentOperationType = true }
+        }
+
+        //обрабатываем нажатие кнопки
         binding.currentResultButton.setOnClickListener {
             if(inputValueChecker(currentLoopVM.lowLimit, currentLoopVM.highLimit,
-                    currentLoopVM.value))
+                    currentLoopVM.value, currentLoopVM.currentOperationType))
             {
                 if(binding.valueRadioButton.isChecked) {
                     try {
                         val value = currentLoopVM.getValue(currentLoopVM.lowLimit,
                             currentLoopVM.highLimit, currentLoopVM.value).toBigDecimal().
-                        setScale(3,
-                        RoundingMode.UP)
+                        setScale(3, RoundingMode.UP)
                         "Значение измееряемой величины $value".also {
                             binding.currentResultEditText.text = it }
                     } catch (e: Exception) {
-                        Toast.makeText(applicationContext, "Вы ввели некоректное значение тока"
+                        Toast.makeText(applicationContext, "Что-то пошло не так"
                             , Toast.LENGTH_LONG).show()
                     }
                 } else {
@@ -89,22 +99,20 @@ class CurrentLoopActivity:AppCompatActivity() {
                         "Значение тока $current".also { binding.currentResultEditText.text = it }
                     } catch (e: Exception) {
                         Toast.makeText(applicationContext,
-                            "Вы ввели некоректное значение величины", Toast.LENGTH_LONG).show()
+                            "Что-то пошло не так", Toast.LENGTH_LONG).show()
                     }
                 }
-            }
-            else {
-                Toast.makeText(applicationContext, "Что-то пошло не так",
-                    Toast.LENGTH_LONG).show()
             }
         }
 
     }
-
-    private fun inputValueChecker(lowLimit: Double, highLimit: Double, value: Double): Boolean {
+    //Функция проверяет корректность введенных значений
+    private fun inputValueChecker(lowLimit: Double, highLimit: Double, value: Double,
+                                  currentOperationType: Boolean): Boolean {
         if(lowLimit.isInfinite() || highLimit.isInfinite() || value.isInfinite()) {
             Toast.makeText(applicationContext, "Введены не все значения",
                 Toast.LENGTH_SHORT).show()
+            return false
         }
 
         if(lowLimit>highLimit) {
@@ -113,11 +121,18 @@ class CurrentLoopActivity:AppCompatActivity() {
             return false
         }
 
-        if(value>highLimit || value<lowLimit) {
+        if((value>highLimit || value<lowLimit) && !currentOperationType) {
             Toast.makeText(applicationContext, "Вы ввели значение вне пределов",
                 Toast.LENGTH_SHORT).show()
             return false
         }
+
+        if(currentOperationType && (value<4.0 || value>20.0)) {
+          Toast.makeText(applicationContext, "Вы ввели некоректное значение тока",
+          Toast.LENGTH_SHORT).show()
+            return false
+        }
+
         if(highLimit.equals(0.00)) {
             Toast.makeText(applicationContext, "Введено нулевое значение верхней границы",
                 Toast.LENGTH_SHORT).show()
