@@ -4,16 +4,16 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
 import com.anatolykravchenko.kipcalculator.rtd.RTDVM
-import com.anatolykravchenko.kipcalculator.rtd.resistancetotemperautre.ResistanceToTemperatureSelector
-import com.anatolykravchenko.kipcalculator.rtd.temperaturetoresistance.TemperatureToResistanceSelector
 import java.lang.Exception
 import java.math.RoundingMode
 
@@ -115,24 +115,63 @@ class RTDActivity: AppCompatActivity() {
                 try {
                     val temp = RTDViewModel.getTemperature(RTDViewModel.materialTypeString,
                         RTDViewModel.nominalResistance,
-                        RTDViewModel.inputValue).toBigDecimal().setScale(3,RoundingMode.UP)
-                    "Значение температуры $temp".also { binding.outTestTextView.text = it }
+                        RTDViewModel.inputValue)
+                    if(resultChecker(RTDViewModel.materialTypeString, temp)) {
+                        "Значение температуры ${temp.toBigDecimal().setScale(3, 
+                            RoundingMode.UP)}".also { binding.outTestTextView.text = it }
+                    }
                 } catch(e: Exception) {
                     Toast.makeText(applicationContext, "Получено некоректное значение",
                         Toast.LENGTH_SHORT).show() }
             } else {
                 try {
-                    val res = RTDViewModel.getResistance(RTDViewModel.materialTypeString,
-                        RTDViewModel.nominalResistance,
-                        RTDViewModel.inputValue).toBigDecimal().setScale(3, RoundingMode.UP)
+                    if (inputChecker(RTDViewModel.materialTypeString, RTDViewModel.inputValue)) {
+                        val res = RTDViewModel.getResistance(RTDViewModel.materialTypeString,
+                            RTDViewModel.nominalResistance,
+                            RTDViewModel.inputValue)
 
-                    "Значение сопротивления $res".also { binding.outTestTextView.text = it }
+                        "Значение сопротивления ${res.toBigDecimal().setScale(3, 
+                            RoundingMode.UP)}".also { binding.outTestTextView.text = it }
+                    }
+
                 } catch (e: Exception) {
                     Toast.makeText(applicationContext, "Получено некоректное значение",
                         Toast.LENGTH_SHORT).show() }
             }
 
         }
+    }
+
+    private fun resultChecker(materialTypeString: String, result: Double): Boolean {
+        if(result>850.00 && (materialTypeString=="PlatinumP" ||materialTypeString=="PlatinumPT")) {
+            Toast.makeText(applicationContext, "Сопротивление вне пределов выбранного датчика",
+                Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if((result<-180.0 || result>200) && materialTypeString=="Coopers" )
+        {
+            Toast.makeText(applicationContext, "Сопротивление вне пределов выбранного датчика",
+            Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+
+    private fun inputChecker(materialTypeString: String, inputTemperature: Double): Boolean {
+        if( (materialTypeString =="Coopers") && inputTemperature>180.0) {
+           Toast.makeText(applicationContext, "Введенная температура" +
+                    " вне пределов работы данного датчика", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if((materialTypeString =="PlatinumP" ||
+            materialTypeString =="PlatinumPT") && inputTemperature>850.0) {
+            Toast.makeText(applicationContext, "Введенная температура" +
+                    " вне пределов работы данного датчика",
+            Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
     }
 }
 
