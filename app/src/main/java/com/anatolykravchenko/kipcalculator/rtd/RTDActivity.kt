@@ -159,7 +159,7 @@ class RTDActivity: AppCompatActivity() {
     }
 
     private fun inputChecker(materialTypeString: String, inputTemperature: Double): Boolean {
-        if( (materialTypeString =="Coopers") && inputTemperature>180.0) {
+        if( (materialTypeString =="Coopers") && inputTemperature>200.0) {
            Toast.makeText(applicationContext, "Введенная температура" +
                     " вне пределов работы данного датчика", Toast.LENGTH_SHORT).show()
             return false
