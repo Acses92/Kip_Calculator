@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KIP Calculator</string>
+    <string name="app_name">КИП Калькулятор</string>
     <string name="hello_word">Программа расчёта нормированных величин</string>
     <string name="rtd_choice_button_text">НСХ датчиков температуры</string>
     <string name="temp_to_resistance_choice_button">Расчёт сопротивления по температуре</string>
