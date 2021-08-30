@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
@@ -23,6 +24,7 @@ enum class SensorType {
 
 class RTDActivity: AppCompatActivity() {
     private lateinit var binding: RtdActivityBinding
+ //   val RTDViewModel by viewModels<RTDVM>()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +97,9 @@ class RTDActivity: AppCompatActivity() {
         //обрабатывае ввод сопротивления
         binding.rtdEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if(s.contentEquals(".") || s.isNullOrEmpty())
                 {
@@ -140,6 +144,7 @@ class RTDActivity: AppCompatActivity() {
             }
 
         }
+
     }
 
     private fun resultChecker(materialTypeString: String, result: Double): Boolean {

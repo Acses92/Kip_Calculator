@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.anatolykravchenko.kipcalculator.databinding.CurentLoopActivityBinding
@@ -13,6 +14,7 @@ import java.math.RoundingMode
 
 class CurrentLoopActivity:AppCompatActivity() {
     private lateinit var binding: CurentLoopActivityBinding
+    val currentLoopVM by viewModels<CurrentLoopViewModel>()
 
 
     @SuppressLint("SetTextI18n")
@@ -20,7 +22,7 @@ class CurrentLoopActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = CurentLoopActivityBinding.inflate(layoutInflater)
         val view = binding.root
-        val currentLoopVM = ViewModelProvider(this).get(CurrentLoopViewModel::class.java)
+        //val currentLoopVM = ViewModelProvider(this).get(CurrentLoopViewModel::class.java)
         setContentView(view)
 
 
@@ -75,6 +77,7 @@ class CurrentLoopActivity:AppCompatActivity() {
                 currentLoopVM.currentOperationType = true }
         }
 
+
         //обрабатываем нажатие кнопки
         binding.currentResultButton.setOnClickListener {
             if(inputValueChecker(currentLoopVM.lowLimit, currentLoopVM.highLimit,
@@ -88,8 +91,8 @@ class CurrentLoopActivity:AppCompatActivity() {
                         "Значение измееряемой величины $value".also {
                             binding.currentResultEditText.text = it }
                     } catch (e: Exception) {
-                        Toast.makeText(applicationContext, "Что-то пошло не так"
-                            , Toast.LENGTH_LONG).show()
+                        Toast.makeText(applicationContext, "Что-то пошло не так",
+                            Toast.LENGTH_LONG).show()
                     }
                 } else {
                     try {
@@ -104,6 +107,7 @@ class CurrentLoopActivity:AppCompatActivity() {
                 }
             }
         }
+
 
     }
     //Функция проверяет корректность введенных значений
