@@ -126,7 +126,7 @@ class RTDActivity: AppCompatActivity() {
             } else {
                 try {
                     if (inputChecker(RTDViewModel.materialTypeString, RTDViewModel.inputValue)) {
-                        val res = RTDViewModel.getResistance(RTDViewModel.materialTypeString,
+                        val res = RTDViewModel.getResistance(
                             RTDViewModel.nominalResistance,
                             RTDViewModel.inputValue)
 
