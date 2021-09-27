@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".currentloop.CurrentLoopActivity"
+        <activity android:name=".currentLoop.CurrentLoopActivity"
             android:screenOrientation="nosensor"/>
         <activity android:name=".RTDActivity"
             android:screenOrientation="nosensor"/>

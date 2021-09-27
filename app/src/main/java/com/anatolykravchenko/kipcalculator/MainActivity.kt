@@ -3,7 +3,7 @@ package com.anatolykravchenko.kipcalculator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.anatolykravchenko.kipcalculator.currentloop.CurrentLoopActivity
+import com.anatolykravchenko.kipcalculator.currentLoop.CurrentLoopActivity
 import com.anatolykravchenko.kipcalculator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

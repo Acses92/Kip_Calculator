@@ -3,7 +3,7 @@ package com.anatolykravchenko.kipcalculator.rtd
 import androidx.lifecycle.ViewModel
 import com.anatolykravchenko.kipcalculator.SensorType
 import com.anatolykravchenko.kipcalculator.rtd.resistancetotemperautre.ResistanceToTemperatureSelector
-import com.anatolykravchenko.kipcalculator.rtd.temperaturetoresistance.TemperatureToResistanceSelector
+import com.anatolykravchenko.kipcalculator.rtd.temperatureToResistance.TemperatureToResistanceSelector
 
 
 class RTDVM: ViewModel() {

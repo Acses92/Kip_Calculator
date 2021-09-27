@@ -1,4 +1,4 @@
-package com.anatolykravchenko.kipcalculator.rtd.temperaturetoresistance
+package com.anatolykravchenko.kipcalculator.rtd.temperatureToResistance
 
 
 class TemperatureToResistanceSelector {

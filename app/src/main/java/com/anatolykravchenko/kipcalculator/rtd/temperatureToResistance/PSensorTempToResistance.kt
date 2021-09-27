@@ -1,14 +1,13 @@
-package com.anatolykravchenko.kipcalculator.rtd.temperaturetoresistance
+package com.anatolykravchenko.kipcalculator.rtd.temperatureToResistance
 
 import kotlin.math.pow
 
-class PTSensorTempToResistance(override var nominalResistance: Double,
-                               override var temperature: Double
-): TemperatureToResistanceInterface
-{
-    override val aCoef: Double = 3.9083e-3
-    override val bCoef: Double = -5.775e-7
-    override val cCoef: Double = -4.183e-12
+class PSensorTempToResistance(override var nominalResistance: Double,
+                              override var temperature: Double
+): TemperatureToResistanceInterface {
+    override val aCoef: Double = 3.9690e-3
+    override val bCoef: Double = -5.841e-7
+    override val cCoef: Double = -4.330e-12
 
     override fun getOperationType(nominalResistance: Double, temperature: Double): Double {
         return if(temperature > 0) {getResistanceFromTemperaturePlus(nominalResistance,
@@ -16,6 +15,7 @@ class PTSensorTempToResistance(override var nominalResistance: Double,
         else {
             getResistanceFromTemperatureMinus(nominalResistance, temperature) }
     }
+
     override fun getResistanceFromTemperatureMinus(
         nominalResistance: Double,
         temperature: Double
