@@ -18,9 +18,7 @@ import com.anatolykravchenko.kipcalculator.rtd.RTDVM
 import java.lang.Exception
 import java.math.RoundingMode
 
-enum class SensorType {
-    PlatinumPT, PlatinumP, Coopers
-}
+
 
 class RTDActivity: AppCompatActivity() {
     private lateinit var binding: RtdActivityBinding
@@ -60,12 +58,12 @@ class RTDActivity: AppCompatActivity() {
             ) {
                 //Обрабатываем материал датчтика.
                 when(adapterRTD.getItem(position).toString()) {
-                    "Медь" -> {RTDViewModel.materialTypeString =
-                        SensorType.Coopers.toString()}
-                    "Платина(PT)" -> {RTDViewModel.materialTypeString =
-                        SensorType.PlatinumPT.toString()}
-                    "Платина(П)" -> {RTDViewModel.materialTypeString =
-                        SensorType.PlatinumP.toString()}
+                    "Медь" -> {RTDViewModel.materialType =
+                        RTDVM.SensorType.Coopers}
+                    "Платина(PT)" -> {RTDViewModel.materialType =
+                        RTDVM.SensorType.PlatinumPT}
+                    "Платина(П)" -> {RTDViewModel.materialType =
+                        RTDVM.SensorType.PlatinumP}
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -97,9 +95,7 @@ class RTDActivity: AppCompatActivity() {
         //обрабатывае ввод сопротивления
         binding.rtdEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if(s.contentEquals(".") || s.isNullOrEmpty())
                 {
@@ -117,7 +113,7 @@ class RTDActivity: AppCompatActivity() {
         binding.rtdResultButton.setOnClickListener {
             if(binding.resToTempRadioButton.isChecked) {
                 try {
-                    val temp = RTDViewModel.getTemperature(RTDViewModel.materialTypeString,
+                    val temp = RTDViewModel.getTemperature(
                         RTDViewModel.nominalResistance,
                         RTDViewModel.inputValue)
                     if(resultChecker(RTDViewModel.materialTypeString, temp)) {
