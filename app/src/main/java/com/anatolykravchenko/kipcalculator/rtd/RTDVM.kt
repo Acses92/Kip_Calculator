@@ -39,8 +39,6 @@ class RTDVM: ViewModel() {
             .also { resistance = it }
     }
 
-
-
     private fun resistanceToTemperatureSelector(nominalResistance: Double,
                                                 inputValue:Double): Double {
         return when(materialType) {

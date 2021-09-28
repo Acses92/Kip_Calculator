@@ -92,7 +92,7 @@ class RTDActivity: AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        //обрабатывае ввод сопротивления
+        //обрабатывае ввод сопротивления. Переделать на лямбду
         binding.rtdEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -121,6 +121,7 @@ class RTDActivity: AppCompatActivity() {
         //обрабатываем кнопку получить значение
         binding.rtdResultButton.setOnClickListener {
 
+            //Переделать обработку кнопки
 
             /*if(RTDViewModel.operationType == RTDVM.OperationType.Temperature)
             {
@@ -146,7 +147,7 @@ class RTDActivity: AppCompatActivity() {
                         Toast.LENGTH_SHORT).show() }
             } else {
                 try {
-                    if (inputChecker(RTDViewModel.materialTypeString, RTDViewModel.inputValue)) {
+                    if (inputChecker(RTDViewModel.materialType, RTDViewModel.inputValue)) {
                         val res = RTDViewModel.getResistance(
                             RTDViewModel.nominalResistance,
                             RTDViewModel.inputValue)
@@ -181,14 +182,15 @@ class RTDActivity: AppCompatActivity() {
         return true
     }
 
-    private fun inputChecker(materialTypeString: String, inputTemperature: Double): Boolean {
-        if( (materialTypeString =="Coopers") && inputTemperature>200.0) {
+
+    private fun inputChecker(materialType: RTDVM.SensorType, inputTemperature: Double): Boolean {
+        if( (materialType ==RTDVM.SensorType.Coopers) && inputTemperature>200.0) {
            Toast.makeText(applicationContext, "Введенная температура" +
                     " вне пределов работы данного датчика", Toast.LENGTH_SHORT).show()
             return false
         }
-        if((materialTypeString =="PlatinumP" ||
-            materialTypeString =="PlatinumPT") && inputTemperature>850.0) {
+        if((materialType ==RTDVM.SensorType.PlatinumP ||
+            materialType==RTDVM.SensorType.PlatinumPT) && inputTemperature>850.0) {
             Toast.makeText(applicationContext, "Введенная температура" +
                     " вне пределов работы данного датчика",
             Toast.LENGTH_SHORT).show()
