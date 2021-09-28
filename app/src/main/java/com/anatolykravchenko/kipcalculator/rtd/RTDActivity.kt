@@ -109,14 +109,35 @@ class RTDActivity: AppCompatActivity() {
             }
         })
 
+        binding.rtdRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            if(binding.resToTempRadioButton.isChecked) {
+                RTDViewModel.operationType = RTDVM.OperationType.Temperature
+            }
+            if(binding.tempToResistRadioButton.isChecked) {
+                RTDViewModel.operationType = RTDVM.OperationType.Value
+            }
+        }
+
         //обрабатываем кнопку получить значение
         binding.rtdResultButton.setOnClickListener {
-            if(binding.resToTempRadioButton.isChecked) {
+
+
+            /*if(RTDViewModel.operationType == RTDVM.OperationType.Temperature)
+            {
+                val temp  = RTDViewModel.getTemperature(
+                RTDViewModel.nominalResistance,
+                RTDViewModel.inputValue)
+                if(temp is Double && resultChecker()) {
+
+                }
+            }*/
+
+            if(RTDViewModel.operationType == RTDVM.OperationType.Temperature) {
                 try {
                     val temp = RTDViewModel.getTemperature(
                         RTDViewModel.nominalResistance,
                         RTDViewModel.inputValue)
-                    if(resultChecker(RTDViewModel.materialTypeString, temp)) {
+                    if(resultChecker(RTDViewModel.materialType, temp)) {
                         "Значение температуры ${temp.toBigDecimal().setScale(3, 
                             RoundingMode.UP)}".also { binding.outTestTextView.text = it }
                     }
@@ -143,14 +164,15 @@ class RTDActivity: AppCompatActivity() {
 
     }
 
-    private fun resultChecker(materialTypeString: String, result: Double): Boolean {
-        if(result>850.00 && (materialTypeString=="PlatinumP" ||materialTypeString=="PlatinumPT")) {
+    private fun resultChecker(materialType: RTDVM.SensorType, result: Double): Boolean {
+        if(result>850.00 && (materialType==RTDVM.SensorType.PlatinumP
+                    ||materialType==RTDVM.SensorType.PlatinumP)) {
             Toast.makeText(applicationContext, "Сопротивление вне пределов выбранного датчика",
                 Toast.LENGTH_SHORT).show()
             return false
         }
 
-        if((result<-180.0 || result>200) && materialTypeString=="Coopers" )
+        if((result<-180.0 || result>200) && materialType == RTDVM.SensorType.Coopers )
         {
             Toast.makeText(applicationContext, "Сопротивление вне пределов выбранного датчика",
             Toast.LENGTH_SHORT).show()
