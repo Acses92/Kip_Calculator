@@ -1,17 +1,20 @@
 package com.anatolykravchenko.kipcalculator
 
 import android.annotation.SuppressLint
+import android.icu.util.UniversalTimeScale.toBigDecimal
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
+import java.math.BigDecimal
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
 import com.anatolykravchenko.kipcalculator.rtd.RTDVM
@@ -93,21 +96,17 @@ class RTDActivity: AppCompatActivity() {
         }
 
         //обрабатывае ввод сопротивления. Переделать на лямбду
-        binding.rtdEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(s.contentEquals(".") || s.isNullOrEmpty())
-                {
-                    RTDViewModel.inputValue = 0.0
-                    binding.rtdResultButton.isEnabled = false
-                }
-                else {
-                    binding.rtdResultButton.isEnabled = true
-                    RTDViewModel.inputValue = s.toString().toDouble()
-                }
+        binding.rtdEditText.doOnTextChanged { text, _, _, _ ->
+            if(text.contentEquals(".")|| text.isNullOrEmpty())
+            {
+                RTDViewModel.inputValue = 0.0
+                binding.rtdResultButton.isEnabled =false
+            }else {
+                RTDViewModel.inputValue = text.toString().toDouble()
+                binding.rtdResultButton.isEnabled = true
             }
-        })
+        }
+
 
         binding.rtdRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             if(binding.resToTempRadioButton.isChecked) {
@@ -121,53 +120,34 @@ class RTDActivity: AppCompatActivity() {
         //обрабатываем кнопку получить значение
         binding.rtdResultButton.setOnClickListener {
 
-            //Переделать обработку кнопки
-
-            /*if(RTDViewModel.operationType == RTDVM.OperationType.Temperature)
+            if(RTDViewModel.operationType == RTDVM.OperationType.Temperature)
             {
                 val temp  = RTDViewModel.getTemperature(
                 RTDViewModel.nominalResistance,
                 RTDViewModel.inputValue)
-                if(temp is Double && resultChecker()) {
-
+                if(resultChecker(RTDViewModel.materialType, temp)==true) {
+                    "Значение температуры ${temp.toBigDecimal().setScale(3,
+                        RoundingMode.UP)}".also { binding.outTestTextView.text = it }
                 }
-            }*/
+                }
 
-            if(RTDViewModel.operationType == RTDVM.OperationType.Temperature) {
-                try {
-                    val temp = RTDViewModel.getTemperature(
-                        RTDViewModel.nominalResistance,
-                        RTDViewModel.inputValue)
-                    if(resultChecker(RTDViewModel.materialType, temp)) {
-                        "Значение температуры ${temp.toBigDecimal().setScale(3, 
-                            RoundingMode.UP)}".also { binding.outTestTextView.text = it }
-                    }
-                } catch(e: Exception) {
-                    Toast.makeText(applicationContext, "Получено некоректное значение",
-                        Toast.LENGTH_SHORT).show() }
-            } else {
-                try {
-                    if (inputChecker(RTDViewModel.materialType, RTDViewModel.inputValue)) {
-                        val res = RTDViewModel.getResistance(
-                            RTDViewModel.nominalResistance,
-                            RTDViewModel.inputValue)
-
-                        "Значение сопротивления ${res.toBigDecimal().setScale(3, 
-                            RoundingMode.UP)}".also { binding.outTestTextView.text = it }
-                    }
-
-                } catch (e: Exception) {
-                    Toast.makeText(applicationContext, "Получено некоректное значение",
-                        Toast.LENGTH_SHORT).show() }
+            if(RTDViewModel.operationType == RTDVM.OperationType.Value && inputChecker(
+                    RTDViewModel.materialType, RTDViewModel.inputValue)
+            ) {
+                val resistance = RTDViewModel.getResistance(
+                    RTDViewModel.nominalResistance,
+                    RTDViewModel.inputValue
+                )
+                "Значение сопротивления ${resistance.toBigDecimal().setScale(3,
+                    RoundingMode.UP)}".also { binding.outTestTextView.text = it }
             }
-
         }
 
     }
 
     private fun resultChecker(materialType: RTDVM.SensorType, result: Double): Boolean {
         if(result>850.00 && (materialType==RTDVM.SensorType.PlatinumP
-                    ||materialType==RTDVM.SensorType.PlatinumP)) {
+                    || materialType==RTDVM.SensorType.PlatinumP)) {
             Toast.makeText(applicationContext, "Сопротивление вне пределов выбранного датчика",
                 Toast.LENGTH_SHORT).show()
             return false

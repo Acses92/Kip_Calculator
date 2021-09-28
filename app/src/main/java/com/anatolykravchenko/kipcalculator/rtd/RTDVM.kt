@@ -22,7 +22,6 @@ class RTDVM: ViewModel() {
 
     var nominalResistance: Double = 50.0
     var inputValue: Double = 0.0
-    var materialTypeString: String = ""
     var materialType:SensorType = SensorType.Coopers
     var temperature: Double = 0.00
     var resistance: Double = 0.00
@@ -57,7 +56,6 @@ class RTDVM: ViewModel() {
                 nominalResistance,
                 inputValue
             )
-            else -> 0.00
         }
 
     }
@@ -84,7 +82,6 @@ class RTDVM: ViewModel() {
                 nominalResistance,
                 inputValue
             )
-            else -> 0.00
         }
     }
 
