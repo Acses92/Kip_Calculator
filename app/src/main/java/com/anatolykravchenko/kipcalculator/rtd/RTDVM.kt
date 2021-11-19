@@ -57,7 +57,6 @@ class RTDVM: ViewModel() {
                 inputValue
             )
         }
-
     }
 
     private fun temperatureToResistanceSelector(nominalResistance: Double,
