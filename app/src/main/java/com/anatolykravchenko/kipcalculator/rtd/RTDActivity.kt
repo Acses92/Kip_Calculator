@@ -41,6 +41,11 @@ class RTDActivity: AppCompatActivity() {
         val materialRTDSpinner = binding.RDTMaterialSpinner
         val nominalResSpinner = binding.rtdResistanceSpinner
 
+        val resultObserver = Observer<String> {
+            binding.outTestTextView.text = it
+        }
+        RTDViewModel.resultString.observe(this, resultObserver)
+
         //Инициализирум массив материалов датчиков
         val adapterRTD = ArrayAdapter.createFromResource(
             this,
@@ -120,10 +125,7 @@ class RTDActivity: AppCompatActivity() {
         binding.rtdResultButton.setOnClickListener {
             RTDViewModel.getResult()
         }
-        val resultObserver = Observer<String> {
-            binding.outTestTextView.text = it
-        }
-        RTDViewModel.resultString.observe(this, resultObserver)
+
 
     }
         fun resultChecker(materialType: RTDVM.SensorType, result: Double): Boolean {

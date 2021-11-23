@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.anatolykravchenko.kipcalculator.R
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -31,6 +33,11 @@ class CurrentLoopActivity:AppCompatActivity(R.layout.curent_loop_activity) {
         binding = CurentLoopActivityBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        val resultObserver = Observer<String> {
+            binding.currentResultEditText.text = it
+        }
+        currentLoopVM.result.observe(this, resultObserver)
 
         //Обрабатываем ввод верхего значения токовой петли
         binding.upermCurrentLevelEditText.doOnTextChanged { text, _, _, _ ->
@@ -72,26 +79,12 @@ class CurrentLoopActivity:AppCompatActivity(R.layout.curent_loop_activity) {
 
         //обрабатываем нажатие кнопки
         binding.currentResultButton.setOnClickListener {
-            if(inputValueChecker())
+      /*      if(inputValueChecker())
             {
                 val result = currentLoopVM.buttonClicker()
-                if(result is BigDecimal) {
-                    if(currentLoopVM.currentOperationType==OperationType.Current)
-                    {
-                        "Значение тока равно $result".also {
-                            binding.currentResultEditText.text = it }
-                    }
-                    else {
-                        "Значение величины равно $result".also {
-                            binding.currentResultEditText.text = it }
-                    }
-                } else {
-                    "Что-то пошло не так".also {
-                        binding.currentResultEditText.text = it
-                    }
-                }
 
-            }
+            }*/
+            currentLoopVM.buttonClicker()
         }
     }
     //Функция проверяет корректность введенных значений

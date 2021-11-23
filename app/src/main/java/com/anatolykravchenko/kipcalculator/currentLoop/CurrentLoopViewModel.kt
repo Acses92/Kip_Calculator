@@ -1,5 +1,7 @@
 package com.anatolykravchenko.kipcalculator.currentLoop
 
+import android.icu.util.UniversalTimeScale.toBigDecimal
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.math.BigDecimal
@@ -16,6 +18,10 @@ class CurrentLoopViewModel: ViewModel() {
     var value: Double = 0.0
     var currentOperationType: OperationType = OperationType.Current
     var status = MutableLiveData<Boolean>()
+    private val _result: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+    val result: LiveData<String> = _result
 
 
     private fun getCurrent(lowLimit: Double, highLimit: Double, value: Double): Double {
@@ -27,49 +33,47 @@ class CurrentLoopViewModel: ViewModel() {
         return (((current - 4.0) * (highLimit - lowLimit)) / 16) + lowLimit
     }
 
-    private fun buttonValueIsClick(): BigDecimal {
-        return getValue(lowLimit, highLimit, value).toBigDecimal().setScale(
-            3, RoundingMode.UP
-        )
+    private fun buttonValueIsClick() {
+        val out = getValue(lowLimit, highLimit, value)
+        _result.value = "Значение измеряемой величины ${out.toBigDecimal().setScale(3,
+            RoundingMode.UP)}"
     }
 
-    private fun buttonCurrentIsClick(): BigDecimal {
-        return getCurrent(lowLimit, highLimit, value).toBigDecimal().setScale(
-            3,
-            RoundingMode.UP
-        )
+    private fun buttonCurrentIsClick() {
+         val out = getCurrent(lowLimit, highLimit, value)
+        _result.value = "Значение тока ${out.toBigDecimal().setScale(3,
+            RoundingMode.UP)}"
     }
 
-    fun buttonClicker(): BigDecimal {
-        return if (currentOperationType == OperationType.Current) {
+    fun buttonClicker() {
+        if (currentOperationType == OperationType.Current) {
             buttonCurrentIsClick()
         } else {
             buttonValueIsClick()
         }
     }
 
+
     //Функция проверяет корректность введенных значений
+
+
     private fun inputValueChecker(): Boolean {
         if(lowLimit.isInfinite() || highLimit.isInfinite() || value.isInfinite()) {
 
             status.value = false
         }
-
         if(lowLimit>highLimit) {
 
             return false
         }
-
         if((value>highLimit || value<lowLimit) && currentOperationType ==OperationType.Value) {
 
             return false
         }
-
         if(currentOperationType==OperationType.Current && (value<4.0 || value>20.0)) {
 
             return false
         }
-
         if(highLimit.equals(0.00)) {
 
             return false
