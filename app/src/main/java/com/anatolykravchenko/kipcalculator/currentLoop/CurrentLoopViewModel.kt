@@ -41,14 +41,11 @@ class CurrentLoopViewModel: ViewModel() {
     }
 
     fun buttonClicker(): BigDecimal {
-
-            if (currentOperationType == OperationType.Current) {
-                return buttonCurrentIsClick()
-            } else {
-
-                return buttonValueIsClick()
-            }
-
+        return if (currentOperationType == OperationType.Current) {
+            buttonCurrentIsClick()
+        } else {
+            buttonValueIsClick()
+        }
     }
 
     //Функция проверяет корректность введенных значений

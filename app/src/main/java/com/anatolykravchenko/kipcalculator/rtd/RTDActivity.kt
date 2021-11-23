@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
 import com.anatolykravchenko.kipcalculator.rtd.RTDVM
@@ -37,7 +38,6 @@ class RTDActivity: AppCompatActivity() {
         val RTDViewModel = ViewModelProvider(this).get(RTDVM::class.java)
         val view = binding.root
         setContentView(view)
-
         val materialRTDSpinner = binding.RDTMaterialSpinner
         val nominalResSpinner = binding.rtdResistanceSpinner
 
@@ -95,7 +95,7 @@ class RTDActivity: AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        //обрабатывае ввод сопротивления. Переделать на лямбду
+        //обрабатывае ввод сопротивления. Переделать в лямбду
         binding.rtdEditText.doOnTextChanged { text, _, _, _ ->
             if(text.contentEquals(".")|| text.isNullOrEmpty())
             {
@@ -106,7 +106,6 @@ class RTDActivity: AppCompatActivity() {
                 binding.rtdResultButton.isEnabled = true
             }
         }
-
 
         binding.rtdRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             if(binding.resToTempRadioButton.isChecked) {
@@ -119,33 +118,15 @@ class RTDActivity: AppCompatActivity() {
 
         //обрабатываем кнопку получить значение
         binding.rtdResultButton.setOnClickListener {
-
-            if(RTDViewModel.operationType == RTDVM.OperationType.Temperature)
-            {
-                val temp  = RTDViewModel.getTemperature(
-                RTDViewModel.nominalResistance,
-                RTDViewModel.inputValue)
-                if(resultChecker(RTDViewModel.materialType, temp)==true) {
-                    "Значение температуры ${temp.toBigDecimal().setScale(3,
-                        RoundingMode.UP)}".also { binding.outTestTextView.text = it }
-                }
-                }
-
-            if(RTDViewModel.operationType == RTDVM.OperationType.Value && inputChecker(
-                    RTDViewModel.materialType, RTDViewModel.inputValue)
-            ) {
-                val resistance = RTDViewModel.getResistance(
-                    RTDViewModel.nominalResistance,
-                    RTDViewModel.inputValue
-                )
-                "Значение сопротивления ${resistance.toBigDecimal().setScale(3,
-                    RoundingMode.UP)}".also { binding.outTestTextView.text = it }
-            }
+            RTDViewModel.getResult()
         }
+        val resultObserver = Observer<String> {
+            binding.outTestTextView.text = it
+        }
+        RTDViewModel.resultString.observe(this, resultObserver)
 
     }
-
-    private fun resultChecker(materialType: RTDVM.SensorType, result: Double): Boolean {
+        fun resultChecker(materialType: RTDVM.SensorType, result: Double): Boolean {
         if(result>850.00 && (materialType==RTDVM.SensorType.PlatinumP
                     || materialType==RTDVM.SensorType.PlatinumP)) {
             Toast.makeText(applicationContext, "Сопротивление вне пределов выбранного датчика",
@@ -163,7 +144,7 @@ class RTDActivity: AppCompatActivity() {
     }
 
 
-    private fun inputChecker(materialType: RTDVM.SensorType, inputTemperature: Double): Boolean {
+    fun inputChecker(materialType: RTDVM.SensorType, inputTemperature: Double): Boolean {
         if( (materialType ==RTDVM.SensorType.Coopers) && inputTemperature>200.0) {
            Toast.makeText(applicationContext, "Введенная температура" +
                     " вне пределов работы данного датчика", Toast.LENGTH_SHORT).show()
