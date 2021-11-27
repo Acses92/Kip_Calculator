@@ -2,6 +2,7 @@ package com.anatolykravchenko.kipcalculator.currentLoop
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Message
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
@@ -38,6 +39,11 @@ class CurrentLoopActivity:AppCompatActivity(R.layout.curent_loop_activity) {
             binding.currentResultEditText.text = it
         }
         currentLoopVM.result.observe(this, resultObserver)
+
+        currentLoopVM.message.observe(this) {errorType ->
+            showMessage(getString(errorType.getString()))
+
+        }
 
         //Обрабатываем ввод верхего значения токовой петли
         binding.upermCurrentLevelEditText.doOnTextChanged { text, _, _, _ ->
@@ -79,51 +85,24 @@ class CurrentLoopActivity:AppCompatActivity(R.layout.curent_loop_activity) {
 
         //обрабатываем нажатие кнопки
         binding.currentResultButton.setOnClickListener {
-      /*      if(inputValueChecker())
-            {
-                val result = currentLoopVM.buttonClicker()
 
-            }*/
             currentLoopVM.buttonClicker()
         }
+
     }
-    //Функция проверяет корректность введенных значений
-     fun inputValueChecker(): Boolean {
-        if(currentLoopVM.lowLimit.isInfinite() || currentLoopVM.highLimit.isInfinite() ||
-            currentLoopVM.value.isInfinite()) {
-            Toast.makeText(applicationContext, "Введены не все значения",
-                Toast.LENGTH_SHORT).show()
-            return false
+    fun showMessage(message: String) {
+        applicationContext?.let {
+            Toast.makeText(it, message,Toast.LENGTH_LONG )
+                .show()
         }
-
-        if(currentLoopVM.lowLimit>currentLoopVM.highLimit) {
-            Toast.makeText(applicationContext, "Нижнее значение не может быть больше верхнего",
-                Toast.LENGTH_SHORT).show()
-            return false
-        }
-
-        if((currentLoopVM.value>currentLoopVM.highLimit ||
-                    currentLoopVM.value<currentLoopVM.lowLimit)
-            && currentLoopVM.currentOperationType == OperationType.Value) {
-            Toast.makeText(applicationContext, "Вы ввели значение вне пределов",
-                Toast.LENGTH_SHORT).show()
-            return false
-        }
-
-        if(currentLoopVM.currentOperationType == OperationType.Current &&
-            (currentLoopVM.value<4.0 || currentLoopVM.value>20.0))
-            {
-          Toast.makeText(applicationContext, "Вы ввели некоректное значение тока",
-          Toast.LENGTH_SHORT).show()
-            return false
-            }
-
-        if(currentLoopVM.highLimit.equals(0.00)) {
-            Toast.makeText(applicationContext, "Введено нулевое значение верхней границы",
-                Toast.LENGTH_SHORT).show()
-            return false
-        }
-        return true
     }
+
+    private fun CurrentLoopErrorType.getString(): Int =
+        when(this) {
+            CurrentLoopErrorType.WRONG_CURRENT_LIMITS -> R.string.wrong_current_limits
+            CurrentLoopErrorType.LOW_LIMIT_MORE_HIGH_LIMIT -> R.string.low_limit_more_high_limit
+            CurrentLoopErrorType.WRONG_VALUE_LIMITS -> R.string.wrong_value_limit
+            CurrentLoopErrorType.WRONG_HIGH_LIMIT -> R.string.wrong_high_limit
+        }
 }
 

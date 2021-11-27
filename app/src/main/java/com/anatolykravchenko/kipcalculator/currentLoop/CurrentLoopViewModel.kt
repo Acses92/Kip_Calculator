@@ -17,7 +17,9 @@ class CurrentLoopViewModel: ViewModel() {
     var lowLimit: Double = 0.0
     var value: Double = 0.0
     var currentOperationType: OperationType = OperationType.Current
-    var status = MutableLiveData<Boolean>()
+    var status : Boolean = true
+    private val  _message = SingleLiveEvent<CurrentLoopErrorType>()
+    val message: LiveData<CurrentLoopErrorType> = _message
     private val _result: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
@@ -34,52 +36,72 @@ class CurrentLoopViewModel: ViewModel() {
     }
 
     private fun buttonValueIsClick() {
+        if(status == true) {
         val out = getValue(lowLimit, highLimit, value)
-        _result.value = "Значение измеряемой величины ${out.toBigDecimal().setScale(3,
+        _result.value = "Значение измеряемой величины ${
+            out.toBigDecimal().setScale(
+                3,
             RoundingMode.UP)}"
+        }
     }
 
     private fun buttonCurrentIsClick() {
-         val out = getCurrent(lowLimit, highLimit, value)
-        _result.value = "Значение тока ${out.toBigDecimal().setScale(3,
-            RoundingMode.UP)}"
+        if(status == true) {
+            val out = getCurrent(lowLimit, highLimit, value)
+            _result.value = "Значение тока ${
+                out.toBigDecimal().setScale(
+                    3,
+                    RoundingMode.UP
+                )
+            }"
+        }
     }
 
     fun buttonClicker() {
         if (currentOperationType == OperationType.Current) {
+            inputValueChecker()
             buttonCurrentIsClick()
         } else {
+            inputValueChecker()
             buttonValueIsClick()
         }
     }
 
 
     //Функция проверяет корректность введенных значений
-
-
-    private fun inputValueChecker(): Boolean {
+    private fun inputValueChecker() {
         if(lowLimit.isInfinite() || highLimit.isInfinite() || value.isInfinite()) {
 
-            status.value = false
+            _message.value = CurrentLoopErrorType.WRONG_CURRENT_LIMITS
+            status = false
         }
         if(lowLimit>highLimit) {
-
-            return false
+            _message.value = CurrentLoopErrorType.LOW_LIMIT_MORE_HIGH_LIMIT
+            status = false
         }
         if((value>highLimit || value<lowLimit) && currentOperationType ==OperationType.Value) {
-
-            return false
+            _message.value = CurrentLoopErrorType.WRONG_VALUE_LIMITS
+            status = false
         }
         if(currentOperationType==OperationType.Current && (value<4.0 || value>20.0)) {
-
-            return false
+            _message.value = CurrentLoopErrorType.WRONG_CURRENT_LIMITS
+            status = false
         }
         if(highLimit.equals(0.00)) {
 
-            return false
+            _message.value = CurrentLoopErrorType.WRONG_HIGH_LIMIT
+            status = false
         }
-        return true
     }
+
+
+}
+enum class CurrentLoopErrorType {
+    WRONG_CURRENT_LIMITS,
+    LOW_LIMIT_MORE_HIGH_LIMIT,
+    WRONG_VALUE_LIMITS,
+    WRONG_HIGH_LIMIT
+
 }
 
 

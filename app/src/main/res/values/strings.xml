@@ -25,6 +25,11 @@
     <string name="current_result_edit_text">Значение</string>
     <string name="current_loop_choise_button_text">Значение токовой петли</string>
     <string name="current_value">Введите величину</string>
+    <string name="low_limit_more_high_limit">Верхнее значение больше нижнего</string>
+    <string name="wrong_value_limit">Вы ввели значение вне пределов</string>
+    <string name="wrong_current_limits">Неверые значения тока</string>
+    <string name="wrong_high_limit">Верхнее значение равно нулю</string>
+
     <string-array name="rtd_material">
         <item>Медь</item>
         <item>Платина(PT)</item>
