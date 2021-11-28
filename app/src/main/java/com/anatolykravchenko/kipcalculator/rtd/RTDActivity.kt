@@ -128,6 +128,10 @@ class RTDActivity: AppCompatActivity() {
 
 
     }
+
+
+
+
         fun resultChecker(materialType: RTDVM.SensorType, result: Double): Boolean {
         if(result>850.00 && (materialType==RTDVM.SensorType.PlatinumP
                     || materialType==RTDVM.SensorType.PlatinumP)) {

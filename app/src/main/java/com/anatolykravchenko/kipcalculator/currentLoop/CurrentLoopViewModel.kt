@@ -25,11 +25,9 @@ class CurrentLoopViewModel: ViewModel() {
     }
     val result: LiveData<String> = _result
 
-
     private fun getCurrent(lowLimit: Double, highLimit: Double, value: Double): Double {
         return 16.0 * (value - lowLimit) / (highLimit - lowLimit) + 4.0
     }
-
 
     private fun getValue(lowLimit: Double, highLimit: Double, current: Double): Double {
         return (((current - 4.0) * (highLimit - lowLimit)) / 16) + lowLimit
@@ -61,12 +59,13 @@ class CurrentLoopViewModel: ViewModel() {
         if (currentOperationType == OperationType.Current) {
             inputValueChecker()
             buttonCurrentIsClick()
+            status = true
         } else {
             inputValueChecker()
             buttonValueIsClick()
+            status = true
         }
     }
-
 
     //Функция проверяет корректность введенных значений
     private fun inputValueChecker() {
@@ -77,13 +76,13 @@ class CurrentLoopViewModel: ViewModel() {
         }
         if(lowLimit>highLimit) {
             _message.value = CurrentLoopErrorType.LOW_LIMIT_MORE_HIGH_LIMIT
-            status = false
+           status = false
         }
         if((value>highLimit || value<lowLimit) && currentOperationType ==OperationType.Value) {
             _message.value = CurrentLoopErrorType.WRONG_VALUE_LIMITS
             status = false
         }
-        if(currentOperationType==OperationType.Current && (value<4.0 || value>20.0)) {
+        if(currentOperationType==OperationType.Value && (value<4.0 || value>20.0)) {
             _message.value = CurrentLoopErrorType.WRONG_CURRENT_LIMITS
             status = false
         }
@@ -93,7 +92,6 @@ class CurrentLoopViewModel: ViewModel() {
             status = false
         }
     }
-
 
 }
 enum class CurrentLoopErrorType {
