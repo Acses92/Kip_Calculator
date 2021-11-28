@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".currentLoop.CurrentLoopActivity"
             android:screenOrientation="nosensor"/>
-        <activity android:name=".RTDActivity"
+        <activity android:name=".RtdActivity"
             android:screenOrientation="nosensor"/>
 
     </application>

@@ -11,6 +11,14 @@ enum class OperationType{
     Current, Value
 }
 
+enum class CurrentLoopErrorType {
+    WRONG_CURRENT_LIMITS,
+    LOW_LIMIT_MORE_HIGH_LIMIT,
+    WRONG_VALUE_LIMITS,
+    WRONG_HIGH_LIMIT
+
+}
+
 class CurrentLoopViewModel: ViewModel() {
 
     var highLimit: Double = 0.0
@@ -94,12 +102,6 @@ class CurrentLoopViewModel: ViewModel() {
     }
 
 }
-enum class CurrentLoopErrorType {
-    WRONG_CURRENT_LIMITS,
-    LOW_LIMIT_MORE_HIGH_LIMIT,
-    WRONG_VALUE_LIMITS,
-    WRONG_HIGH_LIMIT
 
-}
 
 

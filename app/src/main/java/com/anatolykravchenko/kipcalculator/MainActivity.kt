@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.RtdSelectButton.setOnClickListener {
-            val intent = Intent(this, RTDActivity::class.java)
+            val intent = Intent(this, RtdActivity::class.java)
             startActivity(intent)
         }
 

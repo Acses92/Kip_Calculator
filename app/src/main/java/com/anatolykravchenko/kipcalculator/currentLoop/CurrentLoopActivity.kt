@@ -42,7 +42,6 @@ class CurrentLoopActivity:AppCompatActivity(R.layout.curent_loop_activity) {
 
         currentLoopVM.message.observe(this) {errorType ->
             showMessage(getString(errorType.getString()))
-
         }
 
         //Обрабатываем ввод верхего значения токовой петли
@@ -92,7 +91,7 @@ class CurrentLoopActivity:AppCompatActivity(R.layout.curent_loop_activity) {
     }
     fun showMessage(message: String) {
         applicationContext?.let {
-            Toast.makeText(it, message,Toast.LENGTH_LONG )
+            Toast.makeText(it, message,Toast.LENGTH_SHORT )
                 .show()
         }
     }

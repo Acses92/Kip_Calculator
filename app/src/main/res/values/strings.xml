@@ -29,6 +29,8 @@
     <string name="wrong_value_limit">Вы ввели значение вне пределов</string>
     <string name="wrong_current_limits">Неверые значения тока</string>
     <string name="wrong_high_limit">Верхнее значение равно нулю</string>
+    <string name="wrong_temperature_limit">Неверное значение температуры</string>
+    <string name="wrong_resistance_limit">Неверное значение сопротивления</string>
 
     <string-array name="rtd_material">
         <item>Медь</item>
