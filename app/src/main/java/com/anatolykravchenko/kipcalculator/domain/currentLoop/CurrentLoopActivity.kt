@@ -1,23 +1,16 @@
-package com.anatolykravchenko.kipcalculator.currentLoop
+package com.anatolykravchenko.kipcalculator.domain.currentLoop
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Message
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.anatolykravchenko.kipcalculator.R
-import by.kirich1409.viewbindingdelegate.viewBinding
 import com.anatolykravchenko.kipcalculator.databinding.CurentLoopActivityBinding
-import java.lang.Exception
-import java.math.BigDecimal
-import java.math.RoundingMode
 
 class CurrentLoopActivity:AppCompatActivity(R.layout.curent_loop_activity) {
 

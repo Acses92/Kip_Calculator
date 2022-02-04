@@ -1,9 +1,9 @@
-package com.anatolykravchenko.kipcalculator
+package com.anatolykravchenko.kipcalculator.presentation
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.anatolykravchenko.kipcalculator.currentLoop.CurrentLoopActivity
+import com.anatolykravchenko.kipcalculator.domain.currentLoop.CurrentLoopActivity
 import com.anatolykravchenko.kipcalculator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

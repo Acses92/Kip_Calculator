@@ -1,4 +1,4 @@
-package com.anatolykravchenko.kipcalculator.currentLoop
+package com.anatolykravchenko.kipcalculator.presentation
 
 import android.util.Log
 import androidx.annotation.MainThread

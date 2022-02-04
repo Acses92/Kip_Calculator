@@ -1,4 +1,4 @@
-package com.anatolykravchenko.kipcalculator
+package com.anatolykravchenko.kipcalculator.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,10 +10,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import com.anatolykravchenko.kipcalculator.R
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
-import com.anatolykravchenko.kipcalculator.rtd.RtdVM
-import com.anatolykravchenko.kipcalculator.rtd.RTDErrorType
 
 
 class RtdActivity: AppCompatActivity() {

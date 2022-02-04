@@ -11,16 +11,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KIPCalculator">
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".presentation.MainActivity"
            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".currentLoop.CurrentLoopActivity"
+        <activity android:name="com.anatolykravchenko.kipcalculator.domain.currentLoop.CurrentLoopActivity"
             android:screenOrientation="nosensor"/>
-        <activity android:name=".RtdActivity"
+        <activity android:name=".presentation.RtdActivity"
             android:screenOrientation="nosensor"/>
 
     </application>

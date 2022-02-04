@@ -1,4 +1,4 @@
-package com.anatolykravchenko.kipcalculator.rtd.resistancetotemperautre
+package com.anatolykravchenko.kipcalculator.domain.rtd.resistancetotemperautre
 
 import kotlin.math.pow
 

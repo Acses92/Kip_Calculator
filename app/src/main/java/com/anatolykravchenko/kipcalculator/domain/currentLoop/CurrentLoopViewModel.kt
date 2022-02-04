@@ -1,10 +1,9 @@
-package com.anatolykravchenko.kipcalculator.currentLoop
+package com.anatolykravchenko.kipcalculator.domain.currentLoop
 
-import android.icu.util.UniversalTimeScale.toBigDecimal
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import java.math.BigDecimal
+import com.anatolykravchenko.kipcalculator.presentation.SingleLiveEvent
 import java.math.RoundingMode
 
 enum class OperationType{

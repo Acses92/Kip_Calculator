@@ -1,15 +1,13 @@
-package com.anatolykravchenko.kipcalculator.rtd
+package com.anatolykravchenko.kipcalculator.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.anatolykravchenko.kipcalculator.currentLoop.CurrentLoopErrorType
-import com.anatolykravchenko.kipcalculator.currentLoop.SingleLiveEvent
-import com.anatolykravchenko.kipcalculator.rtd.resistancetotemperautre.CopperSensorResistanceToTemp
-import com.anatolykravchenko.kipcalculator.rtd.resistancetotemperautre.PSensorResistanceToTemp
-import com.anatolykravchenko.kipcalculator.rtd.resistancetotemperautre.PTSensorResistanceToTemp
-import com.anatolykravchenko.kipcalculator.rtd.temperatureToResistance.CopperTempToResistance
-import com.anatolykravchenko.kipcalculator.rtd.temperatureToResistance.PSensorTempToResistance
-import com.anatolykravchenko.kipcalculator.rtd.temperatureToResistance.PTSensorTempToResistance
+import com.anatolykravchenko.kipcalculator.domain.rtd.resistancetotemperautre.CopperSensorResistanceToTemp
+import com.anatolykravchenko.kipcalculator.domain.rtd.resistancetotemperautre.PSensorResistanceToTemp
+import com.anatolykravchenko.kipcalculator.domain.rtd.resistancetotemperautre.PTSensorResistanceToTemp
+import com.anatolykravchenko.kipcalculator.domain.rtd.temperatureToResistance.CopperTempToResistance
+import com.anatolykravchenko.kipcalculator.domain.rtd.temperatureToResistance.PSensorTempToResistance
+import com.anatolykravchenko.kipcalculator.domain.rtd.temperatureToResistance.PTSensorTempToResistance
 import java.math.RoundingMode
 import androidx.lifecycle.MutableLiveData as MutableLiveData
 
@@ -140,14 +138,14 @@ class RtdVM: ViewModel() {
         status = true
     }
 
-    private fun resultChecker(materialType: RtdVM.SensorType, result: Double) {
-        if(result>850.00 && (materialType==SensorType.PlatinumP
-                    || materialType==SensorType.PlatinumPT)) {
+    private fun resultChecker(materialType: SensorType, result: Double) {
+        if(result>850.00 && (materialType== SensorType.PlatinumP
+                    || materialType== SensorType.PlatinumPT)) {
             _message.value = RTDErrorType.WRONG_RESISTANCE_LIMIT
             status = false
         }
 
-        if((result<-180.0 || result>200) && materialType == RtdVM.SensorType.Coopers )
+        if((result<-180.0 || result>200) && materialType == SensorType.Coopers)
         {
             _message.value = RTDErrorType.WRONG_RESISTANCE_LIMIT
             status = false
@@ -155,13 +153,13 @@ class RtdVM: ViewModel() {
     }
 
 
-    private fun inputChecker(materialType: RtdVM.SensorType, inputTemperature: Double) {
-        if( (materialType ==RtdVM.SensorType.Coopers) && inputTemperature>200.0) {
+    private fun inputChecker(materialType: SensorType, inputTemperature: Double) {
+        if( (materialType == SensorType.Coopers) && inputTemperature>200.0) {
             _message.value = RTDErrorType.WRONG_TEMPERATURE_LIMIT
             status = false
         }
-        if((materialType ==RtdVM.SensorType.PlatinumP ||
-                    materialType==RtdVM.SensorType.PlatinumPT) && inputTemperature>850.0) {
+        if((materialType == SensorType.PlatinumP ||
+                    materialType== SensorType.PlatinumPT) && inputTemperature>850.0) {
             _message.value = RTDErrorType.WRONG_TEMPERATURE_LIMIT
             status = false
 
