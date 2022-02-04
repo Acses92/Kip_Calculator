@@ -1,4 +1,4 @@
-package com.anatolykravchenko.kipcalculator.presentation
+package com.anatolykravchenko.kipcalculator.presentation.rtd
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -8,23 +8,12 @@ import com.anatolykravchenko.kipcalculator.domain.rtd.resistancetotemperautre.PT
 import com.anatolykravchenko.kipcalculator.domain.rtd.temperatureToResistance.CopperTempToResistance
 import com.anatolykravchenko.kipcalculator.domain.rtd.temperatureToResistance.PSensorTempToResistance
 import com.anatolykravchenko.kipcalculator.domain.rtd.temperatureToResistance.PTSensorTempToResistance
+import com.anatolykravchenko.kipcalculator.presentation.SingleLiveEvent
 import java.math.RoundingMode
 import androidx.lifecycle.MutableLiveData as MutableLiveData
 
-enum class RTDErrorType {
-    WRONG_TEMPERATURE_LIMIT,
-    WRONG_RESISTANCE_LIMIT
-}
 
 class RtdVM: ViewModel() {
-
-    enum class SensorType {
-        PlatinumPT, PlatinumP, Coopers
-    }
-
-    enum class OperationType {
-        Temperature, Value
-    }
 
     var nominalResistance: Double = 50.0
     var inputValue: Double = 0.0
@@ -167,4 +156,3 @@ class RtdVM: ViewModel() {
     }
 }
 
-//}

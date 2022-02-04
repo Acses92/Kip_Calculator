@@ -1,4 +1,4 @@
-package com.anatolykravchenko.kipcalculator.presentation
+package com.anatolykravchenko.kipcalculator.presentation.rtd
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -16,11 +16,10 @@ import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
 
 class RtdActivity: AppCompatActivity() {
     private lateinit var binding: RtdActivityBinding
-    val RtdViewModel by viewModels<RtdVM>()
+    val rtdViewModel by viewModels<RtdVM>()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.rtd_activity)
         binding = RtdActivityBinding.inflate(layoutInflater)
@@ -30,14 +29,7 @@ class RtdActivity: AppCompatActivity() {
         setContentView(view)
         val materialRTDSpinner = binding.RDTMaterialSpinner
         val nominalResSpinner = binding.rtdResistanceSpinner
-        RtdViewModel.message.observe(this) {errorType->
-            showMessage(getString(errorType.getString()))
-        }
-
-        val resultObserver = Observer<String> {
-            binding.outTestTextView.text = it
-        }
-        RtdViewModel.resultString.observe(this, resultObserver)
+        viewModelObserver()
 
         //Инициализирум массив материалов датчиков
         val adapterRTD = ArrayAdapter.createFromResource(
@@ -59,12 +51,15 @@ class RtdActivity: AppCompatActivity() {
             ) {
                 //Обрабатываем материал датчтика.
                 when(adapterRTD.getItem(position).toString()) {
-                    "Медь" -> {RtdViewModel.materialType =
-                        RtdVM.SensorType.Coopers}
-                    "Платина(PT)" -> {RtdViewModel.materialType =
-                        RtdVM.SensorType.PlatinumPT}
-                    "Платина(П)" -> {RtdViewModel.materialType =
-                        RtdVM.SensorType.PlatinumP}
+                    "Медь" -> {rtdViewModel.materialType =
+                        RtdVM.SensorType.Coopers
+                    }
+                    "Платина(PT)" -> {rtdViewModel.materialType =
+                        RtdVM.SensorType.PlatinumPT
+                    }
+                    "Платина(П)" -> {rtdViewModel.materialType =
+                        RtdVM.SensorType.PlatinumP
+                    }
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -87,44 +82,59 @@ class RtdActivity: AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                RtdViewModel.nominalResistance = adapterNominalRes.getItem(position).toString().toDouble()
+                rtdViewModel.nominalResistance = adapterNominalRes.getItem(position).toString().toDouble()
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+        rtdInputListener()
 
+    }
+
+    private fun viewModelObserver() {
+        rtdViewModel.message.observe(this) {errorType->
+            showMessage(getString(errorType.getString()))
+        }
+
+        val resultObserver = Observer<String> {
+            binding.outTestTextView.text = it
+        }
+        rtdViewModel.resultString.observe(this, resultObserver)
+    }
+
+    private fun rtdInputListener() {
         //обрабатывае ввод сопротивления. Переделать в лямбду
         binding.rtdEditText.doOnTextChanged { text, _, _, _ ->
             if(text.contentEquals(".")|| text.isNullOrEmpty())
             {
-                RtdViewModel.inputValue = 0.0
+                rtdViewModel.inputValue = 0.0
                 binding.rtdResultButton.isEnabled =false
             }else {
-                RtdViewModel.inputValue = text.toString().toDouble()
+                rtdViewModel.inputValue = text.toString().toDouble()
                 binding.rtdResultButton.isEnabled = true
             }
         }
 
         binding.rtdRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             if(binding.resToTempRadioButton.isChecked) {
-                RtdViewModel.operationType = RtdVM.OperationType.Temperature
+                rtdViewModel.operationType = RtdVM.OperationType.Temperature
             }
             if(binding.tempToResistRadioButton.isChecked) {
-                RtdViewModel.operationType = RtdVM.OperationType.Value
+                rtdViewModel.operationType = RtdVM.OperationType.Value
             }
         }
         //обрабатываем кнопку получить значение
         binding.rtdResultButton.setOnClickListener {
-            RtdViewModel.getResult()
+            rtdViewModel.getResult()
         }
     }
 
-    fun showMessage(message: String) {
+    private fun showMessage(message: String) {
         applicationContext?.let {
             Toast.makeText(it, message, Toast.LENGTH_SHORT )
                 .show()
         }
     }
+
     private fun RTDErrorType.getString(): Int =
         when(this) {
             RTDErrorType.WRONG_TEMPERATURE_LIMIT -> R.string.wrong_temperature_limit

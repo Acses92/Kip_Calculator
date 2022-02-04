@@ -1,10 +1,11 @@
-package com.anatolykravchenko.kipcalculator.presentation
+package com.anatolykravchenko.kipcalculator.presentation.mainActivity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.anatolykravchenko.kipcalculator.domain.currentLoop.CurrentLoopActivity
+import com.anatolykravchenko.kipcalculator.presentation.currentLoop.CurrentLoopActivity
 import com.anatolykravchenko.kipcalculator.databinding.ActivityMainBinding
+import com.anatolykravchenko.kipcalculator.presentation.rtd.RtdActivity
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding

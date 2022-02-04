@@ -1,4 +1,4 @@
-package com.anatolykravchenko.kipcalculator.domain.currentLoop
+package com.anatolykravchenko.kipcalculator.presentation.currentLoop
 
 import android.annotation.SuppressLint
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.anatolykravchenko.kipcalculator.presentation
+package com.anatolykravchenko.kipcalculator.presentation.mainActivity
 
 import androidx.lifecycle.ViewModel
 

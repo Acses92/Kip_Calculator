@@ -1,4 +1,4 @@
-package com.anatolykravchenko.kipcalculator.domain.currentLoop
+package com.anatolykravchenko.kipcalculator.presentation.currentLoop
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,17 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.anatolykravchenko.kipcalculator.presentation.SingleLiveEvent
 import java.math.RoundingMode
 
-enum class OperationType{
-    Current, Value
-}
 
-enum class CurrentLoopErrorType {
-    WRONG_CURRENT_LIMITS,
-    LOW_LIMIT_MORE_HIGH_LIMIT,
-    WRONG_VALUE_LIMITS,
-    WRONG_HIGH_LIMIT
 
-}
 
 class CurrentLoopViewModel: ViewModel() {
 
@@ -99,7 +90,6 @@ class CurrentLoopViewModel: ViewModel() {
             status = false
         }
     }
-
 }
 
 
