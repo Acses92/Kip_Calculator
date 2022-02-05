@@ -1,6 +1,6 @@
 package com.anatolykravchenko.kipcalculator.domain.rtd.resistancetotemperautre
 
-class ResistanceToTemperatureSelector{
+class ResistanceToTemperatureSelector {
 
     fun sensorSelector(
         sensorTypeString: String,
@@ -10,11 +10,17 @@ class ResistanceToTemperatureSelector{
 
         return when (sensorTypeString) {
             //    SensorType.Nickel -> NickelSensor(nominalResistance, resistance)
-            "Coopers" -> CopperSensorResistanceToTemp(nominalResistance, resistance).getOperationType(
+            "Coopers" -> CopperSensorResistanceToTemp(
+                nominalResistance,
+                resistance
+            ).getOperationType(
                 nominalResistance,
                 resistance
             )
-            "PlatinumPT" -> PTSensorResistanceToTemp(nominalResistance, resistance).getOperationType(
+            "PlatinumPT" -> PTSensorResistanceToTemp(
+                nominalResistance,
+                resistance
+            ).getOperationType(
                 nominalResistance,
                 resistance
             )

@@ -5,5 +5,4 @@ enum class CurrentLoopErrorType {
     LOW_LIMIT_MORE_HIGH_LIMIT,
     WRONG_VALUE_LIMITS,
     WRONG_HIGH_LIMIT
-
 }

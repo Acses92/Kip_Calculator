@@ -13,7 +13,7 @@ import java.math.RoundingMode
 import androidx.lifecycle.MutableLiveData as MutableLiveData
 
 
-class RtdVM: ViewModel() {
+class RtdVM : ViewModel() {
 
     var nominalResistance: Double = 50.0
     var inputValue: Double = 0.0
@@ -22,7 +22,7 @@ class RtdVM: ViewModel() {
     var resistance: Double = 0.00
     var operationType: OperationType = OperationType.Temperature
     private var status: Boolean = true
-    private val  _message = SingleLiveEvent<RTDErrorType>()
+    private val _message = SingleLiveEvent<RTDErrorType>()
     val message: LiveData<RTDErrorType> = _message
     private val _resultString: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
@@ -110,8 +110,9 @@ class RtdVM: ViewModel() {
                 _resultString.value = "Значение температуры ${
                     temp.toBigDecimal().setScale(
                         3,
-                        RoundingMode.UP)}"
-
+                        RoundingMode.UP
+                    )
+                }"
             }
         }
         // if(operationType == RTDVM.OperationType.Value && inputChecker(materialType, inputValue))
@@ -120,22 +121,25 @@ class RtdVM: ViewModel() {
                 nominalResistance,
                 inputValue
             )
-            _resultString.value = "Значение сопротивления ${resistance.toBigDecimal().setScale(
+            _resultString.value = "Значение сопротивления ${
+                resistance.toBigDecimal().setScale(
                     3,
-                    RoundingMode.UP)}"
+                    RoundingMode.UP
+                )
+            }"
         }
         status = true
     }
 
     private fun resultChecker(materialType: SensorType, result: Double) {
-        if(result>850.00 && (materialType== SensorType.PlatinumP
-                    || materialType== SensorType.PlatinumPT)) {
+        if (result > 850.00 && (materialType == SensorType.PlatinumP
+                    || materialType == SensorType.PlatinumPT)
+        ) {
             _message.value = RTDErrorType.WRONG_RESISTANCE_LIMIT
             status = false
         }
 
-        if((result<-180.0 || result>200) && materialType == SensorType.Coopers)
-        {
+        if ((result < -180.0 || result > 200) && materialType == SensorType.Coopers) {
             _message.value = RTDErrorType.WRONG_RESISTANCE_LIMIT
             status = false
         }
@@ -143,12 +147,13 @@ class RtdVM: ViewModel() {
 
 
     private fun inputChecker(materialType: SensorType, inputTemperature: Double) {
-        if( (materialType == SensorType.Coopers) && inputTemperature>200.0) {
+        if ((materialType == SensorType.Coopers) && inputTemperature > 200.0) {
             _message.value = RTDErrorType.WRONG_TEMPERATURE_LIMIT
             status = false
         }
-        if((materialType == SensorType.PlatinumP ||
-                    materialType== SensorType.PlatinumPT) && inputTemperature>850.0) {
+        if ((materialType == SensorType.PlatinumP ||
+                    materialType == SensorType.PlatinumPT) && inputTemperature > 850.0
+        ) {
             _message.value = RTDErrorType.WRONG_TEMPERATURE_LIMIT
             status = false
 

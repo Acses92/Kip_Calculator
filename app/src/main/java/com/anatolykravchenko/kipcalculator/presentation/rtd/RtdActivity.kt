@@ -15,11 +15,11 @@ import com.anatolykravchenko.kipcalculator.R
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
 
 
-class RtdActivity: AppCompatActivity() {
+class RtdActivity : AppCompatActivity() {
 
     private val binding by viewBinding(
-       RtdActivityBinding::bind,
-       R.id.rtd_container
+        RtdActivityBinding::bind,
+        R.id.rtd_container
     )
     val rtdViewModel by viewModels<RtdVM>()
 
@@ -31,7 +31,6 @@ class RtdActivity: AppCompatActivity() {
         setContentView(view)
         val materialRTDSpinner = binding.RDTMaterialSpinner
         val nominalResSpinner = binding.rtdResistanceSpinner
-
         setContentView(view)
         viewModelObserver()
         rtdInputListener()
@@ -47,7 +46,7 @@ class RtdActivity: AppCompatActivity() {
         }
 
         //Обработка выбор материала датчика
-        materialRTDSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        materialRTDSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -55,15 +54,18 @@ class RtdActivity: AppCompatActivity() {
                 id: Long
             ) {
                 //Обрабатываем материал датчтика.
-                when(adapterRTD.getItem(position).toString()) {
-                    "Медь" -> {rtdViewModel.materialType =
-                        SensorType.Coopers
+                when (adapterRTD.getItem(position).toString()) {
+                    "Медь" -> {
+                        rtdViewModel.materialType =
+                            SensorType.Coopers
                     }
-                    "Платина(PT)" -> {rtdViewModel.materialType =
-                        SensorType.PlatinumPT
+                    "Платина(PT)" -> {
+                        rtdViewModel.materialType =
+                            SensorType.PlatinumPT
                     }
-                    "Платина(П)" -> {rtdViewModel.materialType =
-                        SensorType.PlatinumP
+                    "Платина(П)" -> {
+                        rtdViewModel.materialType =
+                            SensorType.PlatinumP
                     }
                 }
             }
@@ -71,31 +73,34 @@ class RtdActivity: AppCompatActivity() {
         }
 
         //Инициализирум массив номинальных сопротивлений
-        val adapterNominalRes = ArrayAdapter.createFromResource(this,
+        val adapterNominalRes = ArrayAdapter.createFromResource(
+            this,
             R.array.rtd_resistance,
-        android.R.layout.simple_dropdown_item_1line
+            android.R.layout.simple_dropdown_item_1line
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
             nominalResSpinner.adapter = adapter
         }
 
         //Обрабатываем выбор номинального сопротивления
-        nominalResSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+        nominalResSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                rtdViewModel.nominalResistance = adapterNominalRes.getItem(position).toString().toDouble()
+                rtdViewModel.nominalResistance =
+                    adapterNominalRes.getItem(position).toString().toDouble()
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
     }
 
     private fun viewModelObserver() {
-        rtdViewModel.message.observe(this) {errorType->
+        rtdViewModel.message.observe(this) { errorType ->
             showMessage(getString(errorType.getString()))
         }
 
@@ -108,21 +113,20 @@ class RtdActivity: AppCompatActivity() {
     private fun rtdInputListener() {
         //обрабатывае ввод сопротивления. Переделать в лямбду
         binding.rtdEditText.doOnTextChanged { text, _, _, _ ->
-            if(text.contentEquals(".")|| text.isNullOrEmpty())
-            {
+            if (text.contentEquals(".") || text.isNullOrEmpty()) {
                 rtdViewModel.inputValue = 0.0
-                binding.rtdResultButton.isEnabled =false
-            }else {
+                binding.rtdResultButton.isEnabled = false
+            } else {
                 rtdViewModel.inputValue = text.toString().toDouble()
                 binding.rtdResultButton.isEnabled = true
             }
         }
 
         binding.rtdRadioGroup.setOnCheckedChangeListener { _, checkedId ->
-            if(binding.resToTempRadioButton.isChecked) {
+            if (binding.resToTempRadioButton.isChecked) {
                 rtdViewModel.operationType = OperationType.Temperature
             }
-            if(binding.tempToResistRadioButton.isChecked) {
+            if (binding.tempToResistRadioButton.isChecked) {
                 rtdViewModel.operationType = OperationType.Value
             }
         }
@@ -134,16 +138,16 @@ class RtdActivity: AppCompatActivity() {
 
     private fun showMessage(message: String) {
         applicationContext?.let {
-            Toast.makeText(it, message, Toast.LENGTH_SHORT )
+            Toast.makeText(it, message, Toast.LENGTH_SHORT)
                 .show()
         }
     }
 
     private fun RTDErrorType.getString(): Int =
-        when(this) {
+        when (this) {
             RTDErrorType.WRONG_TEMPERATURE_LIMIT -> R.string.wrong_temperature_limit
             RTDErrorType.WRONG_RESISTANCE_LIMIT -> R.string.wrong_resistance_limit
-    }
+        }
 
 }
 
