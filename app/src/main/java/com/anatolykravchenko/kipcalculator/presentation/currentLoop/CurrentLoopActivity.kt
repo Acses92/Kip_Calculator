@@ -28,16 +28,43 @@ class CurrentLoopActivity:AppCompatActivity(R.layout.curent_loop_activity) {
         setContentView(R.layout.curent_loop_activity)
         val view = binding.root
         setContentView(view)
+        radioButtonListener()
+        editTextListener()
+        resultButtonListener()
+        viewModelObserver()
 
+        //Обрабатываем значение вводимой величины
+        binding.currentValueEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                binding.currentResultButton.isEnabled = true
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s.isNullOrEmpty() || s.contentEquals(".")) {
+                    currentLoopVM.value = 0.0
+                }else currentLoopVM.value = s.toString().toDouble()
+            }
+        })
+    }
+
+    private fun viewModelObserver() {
         val resultObserver = Observer<String> {
             binding.currentResultEditText.text = it
         }
+
         currentLoopVM.result.observe(this, resultObserver)
 
         currentLoopVM.message.observe(this) {errorType ->
             showMessage(getString(errorType.getString()))
         }
 
+    }
+
+    private fun editTextListener() {
         //Обрабатываем ввод верхего значения токовой петли
         binding.upermCurrentLevelEditText.doOnTextChanged { text, _, _, _ ->
             if(text.isNullOrEmpty() || text.contentEquals(".")) {
@@ -51,24 +78,19 @@ class CurrentLoopActivity:AppCompatActivity(R.layout.curent_loop_activity) {
                 currentLoopVM.lowLimit = 0.0
             }else currentLoopVM.lowLimit = text.toString().toDouble()
         }
+    }
 
-        //Обрабатываем значение вводимой величины
-        binding.currentValueEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    private fun resultButtonListener() {
+        //обрабатываем нажатие кнопки
+        binding.currentResultButton.setOnClickListener {
 
-            override fun afterTextChanged(s: Editable?) {
-                binding.currentResultButton.isEnabled = true
-            }
+            currentLoopVM.buttonClicker()
+        }
+    }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(s.isNullOrEmpty() || s.contentEquals(".")) {
-                    currentLoopVM.value = 0.0
-                }else currentLoopVM.value = s.toString().toDouble()
-            }
-        })
-
+    private fun radioButtonListener() {
         //обрабатываем Radio Button.
-        binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
+        binding.radioGroup.setOnCheckedChangeListener { _, _ ->
             if(binding.currentRadioButton.isChecked){
                 currentLoopVM.currentOperationType = OperationType.Current
             }
@@ -76,14 +98,8 @@ class CurrentLoopActivity:AppCompatActivity(R.layout.curent_loop_activity) {
                 currentLoopVM.currentOperationType = OperationType.Value }
         }
 
-        //обрабатываем нажатие кнопки
-        binding.currentResultButton.setOnClickListener {
-
-            currentLoopVM.buttonClicker()
-        }
-
     }
-    fun showMessage(message: String) {
+    private fun showMessage(message: String) {
         applicationContext?.let {
             Toast.makeText(it, message,Toast.LENGTH_SHORT )
                 .show()
