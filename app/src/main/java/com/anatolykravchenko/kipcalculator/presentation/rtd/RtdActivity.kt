@@ -33,14 +33,15 @@ class RtdActivity : AppCompatActivity() {
         setContentView(view)
         viewModelObserver()
         rtdInputListener()
-        spinnerInit( this)
+        adapterInit( this)
 
     }
 
-    private fun spinnerInit(context: Context) {
+    private fun adapterInit(context: Context) {
         val materialRTDSpinner = binding.RDTMaterialSpinner
         val nominalResSpinner = binding.rtdResistanceSpinner
 
+        //инициализируем массив для материалов датчика
         val adapterRTD = ArrayAdapter.createFromResource(
             this,
             R.array.rtd_material,
@@ -50,6 +51,7 @@ class RtdActivity : AppCompatActivity() {
             materialRTDSpinner.adapter = adapter
         }
 
+        //инициализируем массив для сопротивлений
         val adapterNominalRes = ArrayAdapter.createFromResource(
             this,
             R.array.rtd_resistance,
@@ -72,6 +74,7 @@ class RtdActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
+        //обрабатывае выбор типа датчика
         materialRTDSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -122,7 +125,7 @@ class RtdActivity : AppCompatActivity() {
             }
         }
 
-        binding.rtdRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+        binding.rtdRadioGroup.setOnCheckedChangeListener { _, _ ->
             if (binding.resToTempRadioButton.isChecked) {
                 rtdViewModel.operationType = OperationType.Temperature
             }
