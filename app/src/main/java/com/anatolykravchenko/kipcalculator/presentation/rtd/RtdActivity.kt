@@ -1,6 +1,7 @@
 package com.anatolykravchenko.kipcalculator.presentation.rtd
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -29,13 +30,17 @@ class RtdActivity : AppCompatActivity() {
         setContentView(R.layout.rtd_activity)
         val view = binding.root
         setContentView(view)
-        val materialRTDSpinner = binding.RDTMaterialSpinner
-        val nominalResSpinner = binding.rtdResistanceSpinner
         setContentView(view)
         viewModelObserver()
         rtdInputListener()
+        spinnerInit( this)
 
-        //Инициализирум массив материалов датчиков
+    }
+
+    private fun spinnerInit(context: Context) {
+        val materialRTDSpinner = binding.RDTMaterialSpinner
+        val nominalResSpinner = binding.rtdResistanceSpinner
+
         val adapterRTD = ArrayAdapter.createFromResource(
             this,
             R.array.rtd_material,
@@ -45,7 +50,28 @@ class RtdActivity : AppCompatActivity() {
             materialRTDSpinner.adapter = adapter
         }
 
-        //Обработка выбор материала датчика
+        val adapterNominalRes = ArrayAdapter.createFromResource(
+            this,
+            R.array.rtd_resistance,
+            android.R.layout.simple_dropdown_item_1line
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+            nominalResSpinner.adapter = adapter
+        }
+        //Обрабатываем выбор номинального сопротивления
+        nominalResSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                rtdViewModel.nominalResistance =
+                    adapterNominalRes.getItem(position).toString().toDouble()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
         materialRTDSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -71,32 +97,6 @@ class RtdActivity : AppCompatActivity() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-
-        //Инициализирум массив номинальных сопротивлений
-        val adapterNominalRes = ArrayAdapter.createFromResource(
-            this,
-            R.array.rtd_resistance,
-            android.R.layout.simple_dropdown_item_1line
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
-            nominalResSpinner.adapter = adapter
-        }
-
-        //Обрабатываем выбор номинального сопротивления
-        nominalResSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                rtdViewModel.nominalResistance =
-                    adapterNominalRes.getItem(position).toString().toDouble()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
     }
 
     private fun viewModelObserver() {
