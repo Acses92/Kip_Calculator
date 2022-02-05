@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.anatolykravchenko.kipcalculator">
 
     <application
@@ -12,7 +13,9 @@
         android:theme="@style/Theme.KIPCalculator">
 
         <activity android:name=".presentation.mainActivity.MainActivity"
-           android:screenOrientation="nosensor">
+            android:exported="true"
+           android:screenOrientation="nosensor"
+            tools:ignore="ExtraText">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

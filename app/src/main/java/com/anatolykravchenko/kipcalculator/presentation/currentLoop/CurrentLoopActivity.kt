@@ -9,22 +9,23 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.anatolykravchenko.kipcalculator.R
 import com.anatolykravchenko.kipcalculator.databinding.CurentLoopActivityBinding
 
 class CurrentLoopActivity:AppCompatActivity(R.layout.curent_loop_activity) {
 
-    private lateinit var binding: CurentLoopActivityBinding
 
-    ///С делегатом какая-то фигня. Во фрагмнетах всё работает. В активити нет.
-  //  private val binding by viewBinding(CurentLoopActivityBinding:: bind, R.id.container)
-   // private val binding: CurentLoopActivityBinding by viewBinding (R.id.container)
+    private val binding by viewBinding(
+        CurentLoopActivityBinding::bind,
+        R.id.current_loop_container
+    )
     val currentLoopVM by viewModels<CurrentLoopViewModel>()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = CurentLoopActivityBinding.inflate(layoutInflater)
+        setContentView(R.layout.curent_loop_activity)
         val view = binding.root
         setContentView(view)
 

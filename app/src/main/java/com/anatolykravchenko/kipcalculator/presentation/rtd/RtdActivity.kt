@@ -10,26 +10,31 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.anatolykravchenko.kipcalculator.R
 import com.anatolykravchenko.kipcalculator.databinding.RtdActivityBinding
 
 
 class RtdActivity: AppCompatActivity() {
-    private lateinit var binding: RtdActivityBinding
+
+    private val binding by viewBinding(
+       RtdActivityBinding::bind,
+       R.id.rtd_container
+    )
     val rtdViewModel by viewModels<RtdVM>()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.rtd_activity)
-        binding = RtdActivityBinding.inflate(layoutInflater)
-        //иницициализиреум вью модель
-    //    val RtdViewModel = ViewModelProvider(this).get(RtdVM::class.java)
         val view = binding.root
         setContentView(view)
         val materialRTDSpinner = binding.RDTMaterialSpinner
         val nominalResSpinner = binding.rtdResistanceSpinner
+
+        setContentView(view)
         viewModelObserver()
+        rtdInputListener()
 
         //Инициализирум массив материалов датчиков
         val adapterRTD = ArrayAdapter.createFromResource(
@@ -52,13 +57,13 @@ class RtdActivity: AppCompatActivity() {
                 //Обрабатываем материал датчтика.
                 when(adapterRTD.getItem(position).toString()) {
                     "Медь" -> {rtdViewModel.materialType =
-                        RtdVM.SensorType.Coopers
+                        SensorType.Coopers
                     }
                     "Платина(PT)" -> {rtdViewModel.materialType =
-                        RtdVM.SensorType.PlatinumPT
+                        SensorType.PlatinumPT
                     }
                     "Платина(П)" -> {rtdViewModel.materialType =
-                        RtdVM.SensorType.PlatinumP
+                        SensorType.PlatinumP
                     }
                 }
             }
@@ -86,7 +91,6 @@ class RtdActivity: AppCompatActivity() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-        rtdInputListener()
 
     }
 
@@ -116,10 +120,10 @@ class RtdActivity: AppCompatActivity() {
 
         binding.rtdRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             if(binding.resToTempRadioButton.isChecked) {
-                rtdViewModel.operationType = RtdVM.OperationType.Temperature
+                rtdViewModel.operationType = OperationType.Temperature
             }
             if(binding.tempToResistRadioButton.isChecked) {
-                rtdViewModel.operationType = RtdVM.OperationType.Value
+                rtdViewModel.operationType = OperationType.Value
             }
         }
         //обрабатываем кнопку получить значение
