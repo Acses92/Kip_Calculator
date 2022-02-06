@@ -31,7 +31,6 @@ class CurrentLoopActivity : AppCompatActivity(R.layout.curent_loop_activity) {
         editTextListener()
         resultButtonListener()
         viewModelObserver()
-
     }
 
     private fun viewModelObserver() {

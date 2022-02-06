@@ -33,7 +33,7 @@ class RtdActivity : AppCompatActivity() {
         setContentView(view)
         viewModelObserver()
         rtdInputListener()
-        adapterInit( this)
+        adapterInit(this)
 
     }
 
@@ -71,6 +71,7 @@ class RtdActivity : AppCompatActivity() {
                 rtdViewModel.nominalResistance =
                     adapterNominalRes.getItem(position).toString().toDouble()
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
@@ -98,6 +99,7 @@ class RtdActivity : AppCompatActivity() {
                     }
                 }
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
