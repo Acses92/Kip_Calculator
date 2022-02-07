@@ -12,7 +12,9 @@ import androidx.lifecycle.Observer
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.anatolykravchenko.kipcalculator.R
 import com.anatolykravchenko.kipcalculator.databinding.CurentLoopActivityBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CurrentLoopActivity : AppCompatActivity(R.layout.curent_loop_activity) {
 
     private val binding by viewBinding(

@@ -9,11 +9,13 @@ import com.anatolykravchenko.kipcalculator.domain.rtd.temperatureToResistance.Co
 import com.anatolykravchenko.kipcalculator.domain.rtd.temperatureToResistance.PSensorTempToResistance
 import com.anatolykravchenko.kipcalculator.domain.rtd.temperatureToResistance.PTSensorTempToResistance
 import com.anatolykravchenko.kipcalculator.presentation.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.math.RoundingMode
+import javax.inject.Inject
 import androidx.lifecycle.MutableLiveData as MutableLiveData
 
-
-class RtdVM : ViewModel() {
+@HiltViewModel
+class RtdVM @Inject constructor() : ViewModel() {
 
     var nominalResistance: Double = 50.0
     var inputValue: Double = 0.0

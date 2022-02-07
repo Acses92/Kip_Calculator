@@ -4,9 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.anatolykravchenko.kipcalculator.presentation.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.math.RoundingMode
+import javax.inject.Inject
 
-class CurrentLoopViewModel : ViewModel() {
+@HiltViewModel
+class CurrentLoopViewModel @Inject constructor() : ViewModel () {
 
     var highLimit: Double = 0.0
     var lowLimit: Double = 0.0

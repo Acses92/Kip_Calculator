@@ -8,7 +8,9 @@ import com.anatolykravchenko.kipcalculator.presentation.currentLoop.CurrentLoopA
 import com.anatolykravchenko.kipcalculator.databinding.ActivityMainBinding
 import com.anatolykravchenko.kipcalculator.presentation.rtd.RtdActivity
 import com.anatolykravchenko.kipcalculator.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val binding by viewBinding(ActivityMainBinding::bind, R.id.main_container)
 
