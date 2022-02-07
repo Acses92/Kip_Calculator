@@ -15,7 +15,7 @@ import javax.inject.Inject
 import androidx.lifecycle.MutableLiveData as MutableLiveData
 
 @HiltViewModel
-class RtdVM @Inject constructor() : ViewModel() {
+class RtdViewModel @Inject constructor() : ViewModel() {
 
     var nominalResistance: Double = 50.0
     var inputValue: Double = 0.0

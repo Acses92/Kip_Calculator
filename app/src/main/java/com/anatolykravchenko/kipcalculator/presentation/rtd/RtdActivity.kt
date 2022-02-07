@@ -23,7 +23,7 @@ class RtdActivity : AppCompatActivity() {
         RtdActivityBinding::bind,
         R.id.rtd_container
     )
-    val rtdViewModel by viewModels<RtdVM>()
+    val rtdViewModel by viewModels<RtdViewModel>()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
