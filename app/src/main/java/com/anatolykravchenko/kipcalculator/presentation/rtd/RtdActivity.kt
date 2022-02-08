@@ -38,6 +38,11 @@ class RtdActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition( R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
     private fun adapterInit(context: Context) {
         val materialRTDSpinner = binding.RDTMaterialSpinner
         val nominalResSpinner = binding.rtdResistanceSpinner

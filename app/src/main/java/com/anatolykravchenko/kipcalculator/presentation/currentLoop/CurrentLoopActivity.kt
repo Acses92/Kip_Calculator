@@ -35,6 +35,11 @@ class CurrentLoopActivity : AppCompatActivity(R.layout.curent_loop_activity) {
         viewModelObserver()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition( R.anim.slide_in_left, R.anim.slide_out_right)
+    }
+
     private fun viewModelObserver() {
         val resultObserver = Observer<String> {
             binding.currentResultEditText.text = it

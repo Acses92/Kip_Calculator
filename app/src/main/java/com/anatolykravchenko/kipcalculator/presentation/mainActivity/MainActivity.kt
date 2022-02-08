@@ -24,11 +24,13 @@ class MainActivity : AppCompatActivity() {
         binding.RtdSelectButton.setOnClickListener {
             val intent = Intent(this, RtdActivity::class.java)
             startActivity(intent)
+            overridePendingTransition( R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         binding.currentLoopSelectButton.setOnClickListener {
             val intent = Intent(this, CurrentLoopActivity::class.java)
             startActivity(intent)
+            overridePendingTransition( R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 }
