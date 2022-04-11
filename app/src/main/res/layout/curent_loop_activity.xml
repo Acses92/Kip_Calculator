@@ -40,11 +40,13 @@
         android:layout_marginTop="37dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
-        android:inputType="number|numberDecimal"
+        android:inputType="numberSigned|number|numberDecimal"
+        android:numeric="signed|integer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="@+id/upermCurerntLevel"
-        app:layout_constraintTop_toBottomOf="@+id/lowCurrentLevelEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/lowCurrentLevelEditText"
+        tools:ignore="Deprecated" />
 
     <EditText
         android:id="@+id/lowCurrentLevelEditText"
@@ -54,11 +56,13 @@
         android:layout_marginTop="37dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
-        android:inputType="number|numberDecimal"
+        android:inputType="numberSigned|number|numberDecimal"
+        android:numeric="signed|integer|decimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="@+id/upermCurerntLevel"
-        app:layout_constraintTop_toBottomOf="@+id/upermCurrentLevelEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/upermCurrentLevelEditText"
+        tools:ignore="Deprecated" />
 
     <TextView
         android:id="@+id/lowCurrentLevel"
@@ -103,10 +107,12 @@
         android:layout_marginTop="37dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
-        android:inputType="number|numberDecimal"
+        android:inputType="numberSigned|number|numberDecimal"
+        android:numeric="signed|integer|decimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/upermCurerntLevel"
-        app:layout_constraintTop_toBottomOf="@+id/curentLoopHelloWord" />
+        app:layout_constraintTop_toBottomOf="@+id/curentLoopHelloWord"
+        tools:ignore="Deprecated" />
 
     <RadioGroup
         android:id="@+id/radioGroup"

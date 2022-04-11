@@ -14,7 +14,6 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
 
 
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
-        super.observe(owner, observer)
         if (hasActiveObservers()) {
             Log.w(
                 "SingleLiveEvent",
