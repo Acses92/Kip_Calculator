@@ -117,7 +117,6 @@ class RtdViewModel @Inject constructor() : ViewModel() {
                 }"
             }
         }
-        // if(operationType == RTDVM.OperationType.Value && inputChecker(materialType, inputValue))
         if (operationType == OperationType.Value && status) {
             val resistance = getResistance(
                 nominalResistance,

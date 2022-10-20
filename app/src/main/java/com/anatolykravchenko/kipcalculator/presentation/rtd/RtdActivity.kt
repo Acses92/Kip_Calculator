@@ -3,12 +3,14 @@ package com.anatolykravchenko.kipcalculator.presentation.rtd
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.isDigitsOnly
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -31,19 +33,19 @@ class RtdActivity : AppCompatActivity() {
         setContentView(R.layout.rtd_activity)
         val view = binding.root
         setContentView(view)
-        setContentView(view)
         viewModelObserver()
         rtdInputListener()
         adapterInit(this)
 
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition( R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
-    private fun adapterInit(context: Context) {
+    private fun adapterInit() {
         val materialRTDSpinner = binding.RDTMaterialSpinner
         val nominalResSpinner = binding.rtdResistanceSpinner
 
@@ -122,13 +124,12 @@ class RtdActivity : AppCompatActivity() {
     }
 
     private fun rtdInputListener() {
-        //обрабатывае ввод сопротивления. Переделать в лямбду
         binding.rtdEditText.doOnTextChanged { text, _, _, _ ->
-            if (text.contentEquals(".") || text.isNullOrEmpty()) {
-                rtdViewModel.inputValue = 0.0
-                binding.rtdResultButton.isEnabled = false
-            } else {
+            if (!text.isNullOrEmpty() && text.isDigitsOnly()) {
                 rtdViewModel.inputValue = text.toString().toDouble()
+                binding.rtdResultButton.isEnabled = true
+            } else {
+                rtdViewModel.inputValue = 0.00
                 binding.rtdResultButton.isEnabled = true
             }
         }
@@ -136,9 +137,12 @@ class RtdActivity : AppCompatActivity() {
         binding.rtdRadioGroup.setOnCheckedChangeListener { _, _ ->
             if (binding.resToTempRadioButton.isChecked) {
                 rtdViewModel.operationType = OperationType.Temperature
+                binding.rtdEditText.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
+                binding.rtdEditText.inputType = InputType.TYPE_NUMBER_FLAG_SIGNED
             }
             if (binding.tempToResistRadioButton.isChecked) {
                 rtdViewModel.operationType = OperationType.Value
+                binding.rtdEditText.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
             }
         }
         //обрабатываем кнопку получить значение

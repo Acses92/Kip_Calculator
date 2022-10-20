@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.isDigitsOnly
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -35,6 +36,7 @@ class CurrentLoopActivity : AppCompatActivity(R.layout.curent_loop_activity) {
         viewModelObserver()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition( R.anim.slide_in_left, R.anim.slide_out_right)
@@ -53,16 +55,16 @@ class CurrentLoopActivity : AppCompatActivity(R.layout.curent_loop_activity) {
     private fun editTextListener() {
         //Обрабатываем ввод верхего значения токовой петли
         binding.upermCurrentLevelEditText.doOnTextChanged { text, _, _, _ ->
-            if (text.isNullOrEmpty() || text.contentEquals(".")) {
-                currentLoopVM.highLimit = 0.0
-            } else currentLoopVM.highLimit = text.toString().toDouble()
+            if (!text.isNullOrEmpty() && text.isDigitsOnly()) {
+                currentLoopVM.highLimit  =text.toString().toDouble()
+            } else currentLoopVM.highLimit = 0.0
         }
 
         //Обрабатываем ввод нижнего значения токовой петли
         binding.lowCurrentLevelEditText.doOnTextChanged { text, _, _, _ ->
-            if (text.isNullOrEmpty() || text.contentEquals(".")) {
-                currentLoopVM.lowLimit = 0.0
-            } else currentLoopVM.lowLimit = text.toString().toDouble()
+            if (!text.isNullOrEmpty() && text.isDigitsOnly()) {
+                currentLoopVM.lowLimit = text.toString().toDouble()
+            } else currentLoopVM.lowLimit = 0.0
         }
 
         //Обрабатываем значение вводимой величины
@@ -74,9 +76,9 @@ class CurrentLoopActivity : AppCompatActivity(R.layout.curent_loop_activity) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrEmpty() || s.contentEquals(".")) {
-                    currentLoopVM.value = 0.0
-                } else currentLoopVM.value = s.toString().toDouble()
+                if (!s.isNullOrEmpty() && s.isDigitsOnly()) {
+                    currentLoopVM.value = s.toString().toDouble()
+                } else currentLoopVM.value = 0.0
             }
         })
     }
