@@ -55,14 +55,14 @@ class CurrentLoopActivity : AppCompatActivity(R.layout.curent_loop_activity) {
     private fun editTextListener() {
         //Обрабатываем ввод верхего значения токовой петли
         binding.upermCurrentLevelEditText.doOnTextChanged { text, _, _, _ ->
-            if (!text.isNullOrEmpty() && text.isDigitsOnly()) {
+            if (!text.isNullOrEmpty() && (text.isDigitsOnly() || text == "-")) {
                 currentLoopVM.highLimit  =text.toString().toDouble()
             } else currentLoopVM.highLimit = 0.0
         }
 
         //Обрабатываем ввод нижнего значения токовой петли
         binding.lowCurrentLevelEditText.doOnTextChanged { text, _, _, _ ->
-            if (!text.isNullOrEmpty() && text.isDigitsOnly()) {
+            if (!text.isNullOrEmpty() && (text.isDigitsOnly() || text == "-")) {
                 currentLoopVM.lowLimit = text.toString().toDouble()
             } else currentLoopVM.lowLimit = 0.0
         }
@@ -76,7 +76,7 @@ class CurrentLoopActivity : AppCompatActivity(R.layout.curent_loop_activity) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!s.isNullOrEmpty() && s.isDigitsOnly()) {
+                if (!s.isNullOrEmpty() && (s.isDigitsOnly() || s == "-")) {
                     currentLoopVM.value = s.toString().toDouble()
                 } else currentLoopVM.value = 0.0
             }

@@ -1,7 +1,6 @@
 package com.anatolykravchenko.kipcalculator.presentation.rtd
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
@@ -35,7 +34,7 @@ class RtdActivity : AppCompatActivity() {
         setContentView(view)
         viewModelObserver()
         rtdInputListener()
-        adapterInit(this)
+        adapterInit()
 
     }
 
